@@ -11,7 +11,7 @@ output:
 * talked about project timeline/goals
 * setup GitHub account [GitHub](https://github.com)
 * downloaded R and RStudio
+* read Marine Taxa Track Local Climate Velocities
+* 3 hours
 
 *****
-
-September 14
