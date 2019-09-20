@@ -12,3 +12,11 @@ output: html_notebook
 * 3 hours
 
 *****
+
+**September 20, 2019**
+
+* outlined timeline for both semesters
+* first proposal ~October 18
+* practiced with swirl
+* began doc to collect relevant artices
+* 3.5 hours
