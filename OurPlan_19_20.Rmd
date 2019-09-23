@@ -3,58 +3,69 @@ title: "Zoe and Ria's Plan for the Year"
 output: html_notebook
 ---
 
-#Semester 1: Use trawl data from NOAA to look at how traits vary over space.
+##Semester 1: Use trawl data from NOAA to look at how traits vary over space.
 
-##Skill Goals:
-*Become familiar with how to work with data in R
-*Become familiar with how to find relevant literature
-*Become comfortable with NOAA bottom trawl data
+###Skill Goals:
 
-##To look into:
-  *Permits?
-    *added to someone else's permits?
-    *DEP of state?
-    *IACUC?
+* Become familiar with how to work with data in R
+* Become familiar with how to find relevant literature
+* Become comfortable with NOAA bottom trawl data
 
-##Meetings
-*[Emily Slessinger] (https://marine.rutgers.edu/main/emily-slesinger)
+###To look into:
+
+* Permits?
+  + added to someone else's permits?
+  + DEP of state?
+  + IACUC?
+
+###Meetings
+
+* [Emily Slessinger] (https://marine.rutgers.edu/main/emily-slesinger)
 
 
-##Deliverables:
-*2 page project proposal --> October 18th
-  *background, objectives, brief methods, timeline
-  *search terms: fish, traits, spatial sorting, climate change, range shifts
-*Narrow down data to only East Coast and to only species where we've captured northern and southern boundaries in R
-*Find length and weight data
-*Pick focal species for spring experiments
-*Collect information about how other labs have implemented methods to collect similar data in field/lab
-*3-5 page report by December
+###Deliverables:
 
-##Big Questions:
-*How to deal with temperature gradient?
-*How to deal with variable fishing pressure?
+* 2 page project proposal --> October 18th
+  +background, objectives, brief methods, timeline
+  +search terms: fish, traits, spatial sorting, climate change, range shifts
+* Narrow down data to only East Coast and to only species where we've captured northern and southern boundaries in R
+* Find length and weight data
+* Pick focal species for spring experiments
+* Collect information about how other labs have implemented methods to collect similar data in field/lab
+* 3-5 page report by December
+
+###Big Questions:
+
+* How to deal with temperature gradient?
+* How to deal with variable fishing pressure?
 
 _________
 
-#Semester 2: Design and perform pilot study for trait variation of focal species for summer field work. 
+##Semester 2: Design and perform pilot study for trait variation of focal species for summer field work. 
+
 Continuing to work on trawl data from fall
 
-##Meetings
-*Connecting with people in ME--NJ--NC ~ish regions to tag along for collecting fish
-*For methods, [Lea Pollack](https://lea-pollack.squarespace.com) is a good contact
+###Meetings
 
-##To obtain
-*video cameras
-*video software
-*space for pilot study
+* Connecting with people in ME--NJ--NC ~ish regions to tag along for collecting fish
+* For methods, [Lea Pollack](https://lea-pollack.squarespace.com) is a good contact
 
-##Deliverables
-*Develop protocal for sampling, measuring, and running behavior assays on fish
-*Ria leads Pinsky Lab meeting
-*5-7 page report by May
-*collect focal species from NJ and then perform pilot study
+###To obtain
+
+* video cameras
+* video software
+* space for pilot study
+
+###Deliverables
+
+* Develop protocal for sampling, measuring, and running behavior assays on fish
+* Ria leads Pinsky Lab meeting
+* 5-7 page report by May
+* collect focal species from NJ and then perform pilot study
 
 _________
-#Miscellaneous
-*Professional Development
-*Trip to field station
+
+##Miscellaneous
+
+* Professional Development
+* Trip to field station
