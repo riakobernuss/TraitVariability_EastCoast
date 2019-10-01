@@ -15,8 +15,23 @@ output: html_notebook
 
 **September 20, 2019**
 
-* outlined timeline for both semesters
+* outlined timeline for both semesters [outline](file:///Users/ria/Desktop/R/TraitVariability_EastCoast/OurPlan_19_20.nb.html)
 * first proposal ~October 18
 * practiced with swirl
 * began doc to collect relevant artices
 * 3.5 hours
+
+*****
+
+**September 26, 2019**
+
+* lab meeting
+* 1 hour
+
+*****
+
+**September 27, 2019**
+
+* practiced R via swirl
+* started reading papers for background info
+* will write background together
