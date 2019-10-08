@@ -1,0 +1,12 @@
+---
+title: "Species to Consider?"
+output: html_notebook
+---
+
+Black Sea Bass *Centropristis striata*
+ 
+  * [U Maine Center for Cooperative Aquaculture Research: BSB](https://umaine.edu/cooperative-aquaculture/yellowtail-aquaculture-at-ccar/)
+ 
+Asian Shore Crab *Hemigrapsus sanguineus*
+
+  * [USGS](https://nas.er.usgs.gov/queries/FactSheet.aspx?SpeciesID=183)

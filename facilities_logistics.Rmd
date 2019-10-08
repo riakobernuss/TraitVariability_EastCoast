@@ -1,0 +1,16 @@
+---
+title: "Facilities Logistics"
+output: html_notebook
+---
+
+To look at the expanding edge (leading edge) and the core, we plan to have two study sites, one in northern New England (edge), and another in New Jersey (core). 
+
+###Options for Maine
+* [UNE Arthur P. Girard Marine Science Center](https://www.une.edu/cas/marine/facilities)
+* [Darling Marine Center](https://dmc.umaine.edu/facilities/labs-instrumentation/)
+
+###Options for New Hampshire
+* [Judd Gregg Marine Research Complex UNH](https://marine.unh.edu/research-centers/facilities/judd-gregg-marine-research-complex)
+
+###Options for New Jersey
+* [Sandy Hook NOAA](https://www.nefsc.noaa.gov/nefsc/SandyHook/)
