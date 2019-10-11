@@ -35,3 +35,35 @@ output: html_notebook
 * practiced R via swirl
 * started reading papers for background info
 * will write background together
+* 3 hours
+
+*****
+
+**October 1, 2019**
+
+* outlined backgroup section of research paper
+* began 1st draft of paper [draft](https://docs.google.com/document/d/1oV0CoRcHu2-kNr2E14lT6bcgtEkBZnjOnXEybTrJRjg/edit)
+* have background done in ~1.5 weeks
+* 3.5 hours
+
+*****
+
+**October 3, 2019**
+
+* lab meeting
+* importance of visuals when conveying information
+* 1 hour
+
+*****
+
+**October 10, 2019**
+
+* lab meeting
+* colonization seems to be predicted by bottom temps!
+* 1 hour
+
+*****
+
+**October 11, 2019**
+
+* continue to work on proposal background
