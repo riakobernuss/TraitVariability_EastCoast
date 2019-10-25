@@ -85,3 +85,18 @@ output: html_notebook
 * finishing up first draft of background
 * beginning collecting data next week!
 * 3 hours
+
+*****
+
+**October 24, 2019**
+* review postdoc application
+* 1 hour
+
+*****
+
+**October 25, 2019**
+* went over background revisions
+* started looking at trawl data sets
+* research to decipher column names
+* starting revising background
+* 3 hours
