@@ -89,12 +89,14 @@ output: html_notebook
 *****
 
 **October 24, 2019**
+
 * review postdoc application
 * 1 hour
 
 *****
 
 **October 25, 2019**
+
 * went over background revisions
 * started looking at trawl data sets
 * research to decipher column names
