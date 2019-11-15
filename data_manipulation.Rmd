@@ -1,0 +1,288 @@
+---
+title: "Data Manipulation and Simple Visualization"
+output: html_notebook
+---
+##Data Manipulation
+
+We've developed this tutorial using a R Notebook document. This allows for easy annotation, and to export to pdfs or htmls. It is good coding practice to use a system that allows for easy annotation so that you can remember what your code does and how it works in the future. *Remember that in order to annotate code in a script, or within a 'chunk' of code in a R Notebook document, you can use the hashtag (#).*
+
+First, we start with the setup chunk. This chunk will run before any other chunk you run. 
+```{r setup, message = FALSE}
+#here, we are loading necessary packages. If you've never downloaded these packages before, you will have to first use install.packages("package"). Remember that after installing, you still need to load package by using require() or library(). 
+
+library(tidyr) #for reshaping data
+library(dplyr) #for data manipulation [helpful cheatsheet](https://rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf)
+library(lubridate) #helps us work with dates [helpful cheatsheet](https://rawgit.com/rstudio/cheatsheets/master/lubridate.pdf)
+library(ggplot2) #helps us with visualization [helpful cheatsheet](https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf)
+
+#pulling in files, they are currently in csv (comma, separated, value) form
+mtcars <- read.csv("data/mtcars.csv") #info about car mpg
+
+carkey <- read.csv("data/carkey.csv") #key for which car is which by ID
+
+names <- read.csv("data/mtcars_names.csv") #key for ages of people
+
+```
+Let's check to see what our new data.frames files look like. 
+
+The structure function shows us the structure of our data frame, from this we know how many observations, how many variabltes and the class of each column. Columns can be integers, numeric, character, or factor.
+
+```{r structure}
+str(mtcars) 
+```
+The summary function gives us summary statistics for each column. The output depends on the class. 
+```{r summary}
+summary(mtcars) 
+```
+
+The class function can be used to find the class of an object, or of a component of that object. 
+```{r class}
+class(mtcars) #tells us that mtcars is a data frame
+class(mtcars$mpg) #tells us that the mpg column in mtcars is numeric
+class(carkey$color) #tells us that the color column in mtcars is a factor
+
+class(mtcars$owner) #here, names is a factor, but we want it to be a character
+
+mtcars$owner <- as.character(mtcars$owner)
+
+class(mtcars$owner) #it's fixed
+
+#Let's also do this with owner for names, because at some point we'll want to merge these two data frames. 
+
+names$owner <- as.character(names$owner)
+```
+Now, let's say for our purposes, we are only interested in particular columns. How do we get rid of those that we don't care about?
+
+* mpg	Miles/(US) gallon
+* cyl	Number of cylinders
+* disp	Displacement (cu.in.)
+* hp	Gross horsepower
+* drat	Rear axle ratio
+* wt	Weight (1000 lbs)
+* qsec	1/4 mile time
+* vs	Engine (0 = V-shaped, 1 = straight)
+* am	Transmission (0 = automatic, 1 = manual)
+* gear	Number of forward gears
+* carb	Number of carburetors
+
+We want to keep mpg, cyl, hp, wt, am, ID, and owner
+```{r deleting columns}
+colnames(mtcars)
+
+mtcars_reduced <- mtcars[, c("mpg", "cyl", "hp", "wt", "am", "ID", "owner")]
+```
+Here, we access the specific columns of mtcars that we want but using brackets. mtcars[1,1] refers to the cell in the first row and the first column of the data frame. mtcars[,1] refers to the first column of the data frame and mtcars[1,] refers to the first row of the data frame. 
+
+For practice, make two objects. One with only the first row of mtcars, and one with only the first column of mtcars.  
+```{r extract first row and first column and make new objects}
+
+```
+
+Now, we notice that names in mtcars are in capslock, but names in names are proper (first letter capitalized). R is sensitive to things like case, extra spaces, spelling, etc. Let's change the cases in mtcars from all capital to first letter capitalized. Otherwise, we won't be able to use name as a way to link the two data frames. 
+
+In order to do this, we are going to write a function in R. Thus far, we've been using functions that either exist in base R, or other program developers have coded for a specific package (dplyr, etc.). 
+
+First you define the function. Here, we define firstup() by assigning it to the output of function. The list of argument names (the objects you want to perform the function on) are contained within parentheses. The body of the function (the statements executed when function is run) are contained within {}. Be sure to include a return statement so that the function actually prints something out. 
+
+```{r capitalize}
+firstup <- function(x) {
+  low <- tolower(x) #first, make all letters lower
+  substr(low, 1, 1) <- toupper(substr(low, 1, 1)) #then, make first letter of each string upper
+  low #print revised name
+}
+
+mtcars_reduced$owner <- firstup(mtcars_reduced$owner) # here we replace the column with upper case names with names with only the first letter upper cased. In this case, we are confident that our function is going to do what it's supposed to. However, good data practice is to never edit the raw data. Rather, create a new dummy column first to make sure your function is performing as expected. i.e. mtcars_reduced$owner_test
+
+```
+
+Now, we'd like all the data (names, ages, and type of car) to be in one data frame. To do this, we can use a join function in dplyr. This proceedure is often confused with a column bind (cbind), but they are quite different. Column bind simply takes two objects of the same number of rows and links them side by side. Therefore, to use column bind, you must be confident that the number of rows is the same, and the order in which those rows occur match up.
+
+On the other hand, joins can be used to link data frames with different numbers of rows using a 'key' column. This is what we want to use. 
+
+Dplyr has 4 different join options:
+
+* left join: keeps all rows from first data frame, only matching data from second
+* right join: keeps all rows from second data frame, only matching data from first
+* inner join: keeps only rows that match across data frames
+* outer join: keeps all rows regardless of matches across data frames
+ 
+A key part of using these functions is specifying the columns by which you want to match the data.frames.
+ 
+We will do a left join, but feel free to take the time to experiment with the other types of joins!
+
+We can only add two data.frames at a time.
+ 
+```{r left join}
+mtcars_full <- left_join(mtcars_reduced, carkey, by = "ID") # we use ID as the join key because both carkey and mtcars_reduced have this column. Notice that ID is in a different order in each data frame, therefore if we used cbind, our data would be merged incorrectly!
+```
+
+We've now successfully added name, date manufactured, and color to our central data frame. However, we still want to add ages of the owners.
+
+```{r adding owners}
+mtcars_full_final <- left_join(mtcars_full, names, by = "owner")
+```
+
+Our data frame is now in ship shape form. Let's now look at our data!
+
+******
+##Data Visualization
+
+There are two options for plotting, ggplot and base R. Either is fine! But ggplot tends to be intuitive, so that's what this tutorial will be using. 
+
+```{r starting with ggplot}
+#let's first look at the variety of mpg values using a histogram
+ggplot(aes(x=mpg), data = mtcars_reduced) + #always start by calling ggplot, and setting data, and aesthetics (x and y, and if appliable, fill)
+  geom_histogram()
+
+#I don't like the weird gray boxes behind the plot, how can I get rid of them?
+ggplot(aes(x=mpg), data = mtcars_reduced) + #always start by calling ggplot, and setting data, and aesthetics (x and y, and if appliable, fill)
+  geom_histogram() +
+  theme_classic()
+
+#there are a number of different themes, notice that R Studio will automatically populate after you type theme_. Try them out!
+
+```
+###What if I'm interested in how mpg varies by weight? I will make a linear model to see if there's a relationship. 
+
+Best practice, always make a hypothesis first! I predict that___________ because __________.
+```{r linear model}
+#first, I want to visualize the relationship
+ggplot(aes(x=wt, y=mpg), data = mtcars_full_final) +
+  geom_point() +
+  theme_classic()
+
+#Hmm, this appears to be a strong relationship! And appears to be a linear relationship. I will make a linear model. 
+
+mod1 <- lm(mpg ~ wt, data = mtcars_full_final)
+summary(mod1)
+```
+What do I learn from this?
+
+* The equation for the line is _ = _x + __ (this follows y=mx+b form). *Hint: m = `mod1$coefficients[[2]]`, b = `mod1$coefficients[[1]]`
+* The p-value for the coefficients (how likely we would get the coefficients that we did if the null hypothesis is true), we typically consider <0.05 to be significant, although this is arbitrary
+* The R^2 value, which gives us an idea of how much variance is explained by our model.
+
+Now let's visualize our model! 
+
+```{r plotting}
+ggplot(aes(x=wt, y=mpg), data = mtcars_full_final) +
+  geom_point() +
+  geom_smooth( method = "lm") + #because we have a simple model, using 'geom_smooth' method lm will automatically add the model we just created above (mod1) to our plot. This does not work for more complicated models.
+  labs(x= "Weight in tons", y = "Miles per Gallon") + #let's be more specific with axis labels
+  theme_classic()
+```
+Did we confirm or reject our hypothesis?
+
+###What about color? Does color improve our model fit?
+
+I predict that ________ because ___________.
+```{r linear model with multiple predictor variables}
+#first, visualize
+ggplot(aes(x=wt, y=mpg), data = mtcars_full_final) +
+  geom_point(aes(color = color)) +
+  labs(x= "Weight in tons", y = "Miles per Gallon") +
+  theme_classic()
+```
+I'm not seeing any patterns here, but still worth it to try a model. Here, we're adding a categorical variable to our model
+
+```{r adding color}
+mod2 <- lm(mpg ~ wt + color, data = mtcars_full_final)
+summary(mod2)
+```
+Here, we get some insight into how R interprets factors. It chooses one (first alphabetically) to be the base factor (here, that's black). The coefficient we see for intercept `mod2$coefficients[[1]]` is specifically for a black car. Each factor level other than black has a different intercept, `mod2$coefficients[[1]]` plus the value corresponding to each level (colorblue, colorgrey, etc.).
+
+Even though none of the factors are significant, let's visualize for practice. 
+```{r visualize weight and color}
+#here, we cannot simply use geom_smooth, we will have to calculate predicted values, and put these into a data frame
+
+intercepts <- c(coef(mod2)["(Intercept)"], #black
+                coef(mod2)["(Intercept)"] + coef(mod2)["colorblue"], #blue
+                coef(mod2)["(Intercept)"] + coef(mod2)["colorgrey"], #grey
+                coef(mod2)["(Intercept)"] + coef(mod2)["colororange"], #orange
+                coef(mod2)["(Intercept)"] + coef(mod2)["colorred"], #red
+                coef(mod2)["(Intercept)"] + coef(mod2)["colorsilver"], #silver
+                coef(mod2)["(Intercept)"] + coef(mod2)["colorwhite"], #white
+                coef(mod2)["(Intercept)"] + coef(mod2)["coloryellow"]) #yellow
+
+lines.df <- data.frame(intercepts = intercepts,
+                       slopes = rep(coef(mod2)["wt"], 8),
+                       color = levels(mtcars_full_final$color))
+
+ggplot(aes(x = wt, y = mpg, color = color), data = mtcars_full_final) + 
+  geom_point() +
+  geom_abline(aes(intercept = intercepts, 
+                  slope = slopes, 
+                  color = color), data = lines.df) +
+  theme_classic()
+```
+Did we confirm or reject our hypothesis?
+
+
+###What about automatic vs. manual? 
+*am = Transmission (0 = automatic, 1 = manual)*
+
+I predict that ________ because ___________.
+
+```{r automatic vs manual}
+#first, visualize
+ggplot(aes(x=wt, y=mpg), data = mtcars_full_final) +
+  geom_point(aes(color = am)) +
+  labs(x= "Weight in tons", y = "Miles per Gallon") +
+  theme_classic()
+
+#to make the legend more appropriately labeled, we should make am a factor, instead of numeric. Also, let's make the factor levels more clear. 
+
+mtcars_full_final$am <- as.factor(mtcars_full_final$am)
+
+levels(mtcars_full_final$am) <- c("automatic", "manual")
+
+#now, plot again
+ggplot(aes(x=wt, y=mpg), data = mtcars_full_final) +
+  geom_point(aes(color = am)) +
+  labs(x= "Weight in tons", y = "Miles per Gallon") +
+  guides(color=guide_legend(title="Transmission")) +
+  theme_classic()
+```
+
+Now, let's model. Visually, it appears that manual cars have higher mpg ratings, but it's important to notice that manual cars also tend to be lighter in this sample set. It's possible that this data set is biased by highlighting heavy automatic cars, and light manual cars. 
+
+```{r transmission model}
+mod3 <- lm(mpg ~ am + wt, data= mtcars_full_final)
+summary(mod3)
+```
+Did we confirm or reject our hypothesis?
+
+
+Sometimes, in addition to allowing the intercept to vary, we may also want to allow the slope to vary across factors. This is called an interaction, and gives us information on how z influences the relationship between x and y. 
+
+###Let's look at cylinders as a factor, and at weight as a continuous predictor for mpg, and see if there's an interaction. 
+
+```{r interactions}
+#first let's make cylinder a factor
+mtcars_full_final$cyl <- as.factor((mtcars_full_final$cyl))
+
+#visualize 
+ggplot(aes(x=wt, y=mpg), data = mtcars_full_final) +
+  geom_point(aes(color = cyl)) +
+  labs(x= "Weight in tons", y = "Miles per Gallon") +
+  guides(color=guide_legend(title="Cylinders")) +
+  theme_classic()
+
+#again, it appears that weight may be the best predictor, but let's model anyway
+
+#model
+mod4 <- lm(mpg ~ cyl*wt, data = mtcars_full_final) #Including * tells the model we want to look at each variable individually, but also at their interaction
+summary(mod4)
+
+#visualize again
+ggplot(aes(x=wt, y=mpg), data = mtcars_full_final) +
+  geom_point(aes(color = cyl)) +
+  labs(x= "Weight in tons", y = "Miles per Gallon") +
+  guides(color=guide_legend(title="Cylinders")) +
+  facet_wrap(~cyl) + 
+  geom_smooth(method = lm) +
+  theme_classic()
+```
+Did we confirm or reject our hypothesis?
+
+###There are many more combinations to try. Go crazy! Just be sure to develop a hypothesis first. 
