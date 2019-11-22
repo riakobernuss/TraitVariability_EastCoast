@@ -16,11 +16,11 @@ library(lubridate) #helps us work with dates [helpful cheatsheet](https://rawgit
 library(ggplot2) #helps us with visualization [helpful cheatsheet](https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf)
 
 #pulling in files, they are currently in csv (comma, separated, value) form
-mtcars <- read.csv("data/mtcars.csv") #info about car mpg
+mtcars <- read.csv("mtcars.csv") #info about car mpg
 
-carkey <- read.csv("data/carkey.csv") #key for which car is which by ID
+carkey <- read.csv("carkey.csv") #key for which car is which by ID
 
-names <- read.csv("data/mtcars_names.csv") #key for ages of people
+names <- read.csv("mtcars_names.csv") #key for ages of people
 
 ```
 Let's check to see what our new data.frames files look like. 
@@ -147,8 +147,9 @@ ggplot(aes(x=mpg), data = mtcars_reduced) + #always start by calling ggplot, and
 Best practice, always make a hypothesis first! I predict that___________ because __________.
 ```{r linear model}
 #first, I want to visualize the relationship
-ggplot(aes(x=wt, y=mpg), data = mtcars_full_final) +
-  geom_point() +
+ggplot(aes(x=wt), data = mtcars_full_final) +
+  geom_point(aes(y=mpg)) +
+  geom_line(aes(y=hp)) +
   theme_classic()
 
 #Hmm, this appears to be a strong relationship! And appears to be a linear relationship. I will make a linear model. 

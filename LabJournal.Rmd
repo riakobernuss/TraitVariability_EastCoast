@@ -102,3 +102,51 @@ output: html_notebook
 * research to decipher column names
 * starting revising background
 * 3 hours
+
+*****
+
+**October 31,2019**
+
+* HALLOWEEN
+* lab meeting
+* 1 hour
+
+******
+
+**November 1, 2019**
+
+* lots of work on background
+* kind of started tutorial
+* 3 hours
+
+*****
+
+**November 7, 2019**
+
+* OceanAdapt discussion
+* 1 hour
+
+*****
+
+**November 10, 2019**
+
+* more struggle with tutorial
+* more background progress
+* 3 hours
+
+*****
+
+**November 14, 2019**
+
+* lab meeting
+* 1 hour
+
+*****
+
+**November 15, 2019**
+
+* success with tutorial!
+* moved files to correct location
+* discussed upcoming work
+* began finding column names
+* 3 hours
