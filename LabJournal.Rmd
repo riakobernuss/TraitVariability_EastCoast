@@ -150,3 +150,55 @@ output: html_notebook
 * discussed upcoming work
 * began finding column names
 * 3 hours
+
+*****
+
+**November 21, 2019**
+
+* posting code with published work
+* "release"
+* 1 hour
+
+*****
+
+**November 22, 2019**
+
+* basically finished with column names, at least what is possible
+* figuring out which columns to use
+* 3 hours
+
+*****
+
+**November 26, 2019**
+
+* finished background (draft 2)
+* neus full (success!!)
+* 3 hours
+
+*****
+
+**December 5, 2019**
+
+* clownfish carol
+* 1 hour
+
+*****
+
+**December 6, 2019**
+
+* picking comlunms
+* glf_full
+* starting to delete columns
+* 3 hours
+
+*****
+
+**December 12, 2019**
+
+* final touches on paper
+* last lab meeting
+* 2 hours
+
+*****
+
+**Decemebr 13, 2019**
