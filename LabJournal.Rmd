@@ -202,3 +202,7 @@ output: html_notebook
 *****
 
 **Decemebr 13, 2019**
+
+* semester debrief
+* reduced data from 3 locations
+* 4 hours

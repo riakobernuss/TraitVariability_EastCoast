@@ -1,0 +1,63 @@
+---
+title: "trawl data reduction"
+output: html_notebook
+---
+##Trawl Data
+
+The main goal is to reduce the original trawl dataset to as little data as possible, only keeping what will possibly be used in analyses. 
+
+```{r setup}
+library(tidyr) #for reshaping data
+library(dplyr) #for data manipulation [helpful cheatsheet](https://rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf)
+library(lubridate) #helps us work with dates [helpful cheatsheet](https://rawgit.com/rstudio/cheatsheets/master/lubridate.pdf)
+library(ggplot2) #helps us with visualization [helpful cheatsheet](https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf)
+library(data.table) #deals with large datasets
+```
+
+
+###NEUS Data
+
+Merge NEUS datasets so that scientific and common name are displayed on the main dataset.
+```{r merge NEUS}
+neus_full <- left_join(spp, survdat, by = "SVSPP")
+```
+
+Reduce NEUS data.
+```{r reduce NEUS}
+neus_reduced <- neus_full[, c("TOW", "CATCHSEX", "YEAR", "SEASON", "LAT", "LON", "EST_TOWDATE", "DEPTH", "SURFTEMP", "BOTTEMP", "ABUNDANCE", "BIOMASS", "LENGTH", "NUMLEN", "SCINAME", "COMNAME")]
+```
+
+Save NEUS data.
+```{r save NEUS}
+save(neus_reduced, file = "neus_reduced.Rdata")
+```
+
+
+###GULF Data
+
+Reduce GULF data.
+```{r reduce GULF} 
+#this must be done before merging the data to avoid memory exhuastion
+glf_individ_red <- glf_individ[, c("CRUISE_NO", "P_STA_NO", "GENUS_GLF", "SPEC_GLF", "MEASCD_GLF", "LEN_GLF", "SEX_GLF", "MAT_GLF")]
+glf_trawl_red <- glf_trawl_specifics[, c("CRUISE_NO", "P_STA_NO", "MO_DAY_YR", "TEMP_SSURF", "TEMP_BOT", "TOW_NO", "DECSLAT", "DECSLON", "DECELAT", "DECELON")]
+```
+
+Merge GULF data.
+```{r merge GULF}
+glf_reduced <- left_join(glf_individ_red, glf_trawl_red, by = "CRUISE_NO") #vector memory exhausted
+```
+
+```{r merge GULF with datatable}
+glf_individ_red <- as.data.table(glf_individ_red)
+glf_trawl_red <- as.data.table(glf_trawl_red)
+
+class(glf_individ_red) #check to see that it worked
+
+glf_reduced <- glf_individ_red[glf_trawl_red, nomatch = 0, on = c("CRUISE_NO", "P_STA_NO")]
+
+colnames(glf_individ_red)
+colnames(glf_trawl_red)
+```
+
+
+
