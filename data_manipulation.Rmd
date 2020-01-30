@@ -114,6 +114,8 @@ We can only add two data.frames at a time.
  
 ```{r left join}
 mtcars_full <- left_join(mtcars_reduced, carkey, by = "ID") # we use ID as the join key because both carkey and mtcars_reduced have this column. Notice that ID is in a different order in each data frame, therefore if we used cbind, our data would be merged incorrectly!
+
+mtcars_full <- left_join(mtcars_reduced, carkey, by = c("ID", "mpg", "color"))
 ```
 
 We've now successfully added name, date manufactured, and color to our central data frame. However, we still want to add ages of the owners.
