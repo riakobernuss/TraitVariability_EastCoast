@@ -206,3 +206,26 @@ output: html_notebook
 * semester debrief
 * reduced data from 3 locations
 * 4 hours
+
+*****
+
+**January 29, 2020**
+
+* lab meeting
+* 1 hour
+
+*****
+
+**January 30, 2020**
+
+* first day!!
+* writing code for reduced and merged data tables
+* stuck on GLF, "vector memory exhausted"
+* 3 hours
+
+******
+
+**February 5, 2020**
+
+* lab meeting
+* 1 hour
