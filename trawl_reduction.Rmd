@@ -104,12 +104,16 @@ gsinf_reduced <- GSINF[, c("MISSION", "SDATE", "TIME", "STRAT", "SLAT", "SLONG",
 
 Rename columns so merge is possible.
 ```{r rename Scotian}
-names(GSDET)[names(GSDET) == "FSHNO"] <- "CODE"
+names(gsdet_reduced)[names(gsdet_reduced) == "FSHNO"] <- "CODE"
 ```
 
 Merge Scotian data.
+```{r merege by CODE}
+scot_full <- left_join(gsdet_reduced, GSSPECIES, by = "CODE")
+```
+
 ```{r merge Scotian}
-gs_full <- left_join(gsdet_reduced, gsinf_reduced, by = "MISSION")
+scot_recuded <- left_join(scot_full, gsinf_reduced, by = "MISSION")
 #not sure if this is what they should be merged by, could be SETNO?
 
 ```
