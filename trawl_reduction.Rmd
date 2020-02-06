@@ -31,9 +31,9 @@ load("seus_trawl_data.Rdata")
 
 #Scotian Shelf
 
-shelf_file_list <- Sys.glob(path="RV*.RData") 
+shelf_file_list <- Sys.glob(path="RV*.RData") #this creates a list with the name of all the Scotian Shelf Files, which all conveniently start with RV and end with .Rdata. the * says "with anything in between"
 
-for (i in 1:length(shelf_file_list)) {
+for (i in 1:length(shelf_file_list)) { #this for loop goes through every character string in the list and loads them into your environment from the repository folder
   load(shelf_file_list[i])
 }
 
@@ -69,19 +69,13 @@ glf_trawl_red <- glf_trawl_specifics[, c("CRUISE_NO", "P_STA_NO", "MO_DAY_YR", "
 
 Merge GULF data.
 ```{r merge GULF}
-glf_reduced <- left_join(glf_individ_red, glf_trawl_red, by = "CRUISE_NO") #vector memory exhausted
-```
-
-```{r merge GULF with datatable}
-glf_individ_red <- as.data.table(glf_individ_red)
-glf_trawl_red <- as.data.table(glf_trawl_red)
-
-class(glf_individ_red) #check to see that it worked
-
-glf_reduced <- glf_individ_red[glf_trawl_red, nomatch = 0, on = c("CRUISE_NO", "P_STA_NO")]
-
+#first look at column names to see which ones overlap, and therefore which we can use to connect the two datasets
 colnames(glf_individ_red)
 colnames(glf_trawl_red)
+
+glf_reduced <- left_join(glf_individ_red, glf_trawl_red, by = c("CRUISE_NO", "P_STA_NO")) #vector memory exhausted
+#this appears to be a computer problem, as it's running on my computer
+
 ```
 
 
