@@ -80,9 +80,43 @@ glf_reduced <- left_join(glf_individ_red, glf_trawl_red, by = c("CRUISE_NO", "P_
 
 ```
 
+###SUES Data
+
+Reduce SUES data.
+```{r reduce SEUS}
+#do before merge to avoid possible memory exhuastion
+seus_creduced <- seus_catch[, c("DATE", "EVENTNAME", "SPECIESSCIENTIFICNAME", "SPECIESCOMMONNAME", "NUMBERTOTAL", "SPECIESTOTALWEIGHT", "ORGWTUNITS", "CATCHWEIGHT", "TEMPSURFACE", "TEMPBOTTOM", "LATITUDESTART", "LATITUDEEND", "LONGITUDESTART", "LONGITUDEEND")]
+seus_sreduced <- seus_specimens[, c("DATE", "EVENTNAME", "SPECIESSCIENTIFICNAME", "SPECIESCOMMONNAME", "SPECIMENNUMBER", "LEN1", "LEN1_TYPE", "LEN2", "LEN2_TYPE", "ORGLENUNITS", "WEIGHT", "ORGWTUNITS", "SEXDESCRIPTION", "TEMPSURFACE", "TEMPBOTTOM", "SPECIESTOTALWEIGHT", "LATITUDESTART", "LATITUDEEND")]
+```
+
+Merge SEUS data.
+```{r merge SEUS}
+seus_reduced <- left_join(seus_creduced, seus_sreduced, by = "EVENTNAME")
+```
+
+###Scotian Data
+
+Reduce Scotian data.
+```{r reduce Scotian}
+gsdet_reduced <- GSDET[, c("MISSION", "SPEC", "FSHNO", "FLEN", "FSEX", "FMAT", "FWT")]
+gsinf_reduced <- GSINF[, c("MISSION", "SDATE", "TIME", "STRAT", "SLAT", "SLONG", "AREA", "DIST", "SPEED", "DEPTH", "SURFACE_TEMPERATURE", "BOTTOM_TEMPERATURE", "BOTTOM_SALINITY", "LATITUDE", "LONGITUDE")]
+```
+
+Rename columns so merge is possible.
+```{r rename Scotian}
+names(GSDET)[names(GSDET) == "FSHNO"] <- "CODE"
+```
+
+Merge Scotian data.
+```{r merge Scotian}
+gs_full <- left_join(gsdet_reduced, gsinf_reduced, by = "MISSION")
+#not sure if this is what they should be merged by, could be SETNO?
+
+```
 
 _________________
 ####Final Goal: Merge all datasets so that we can look at how length varies across latitude, temperature, and other predictor variables. Before, we'll have to verify that all units are the same! It looks like because we'll have to continue doing merges, we'll have to do it on a lab computer. 
+
 
 Ex: 
 
