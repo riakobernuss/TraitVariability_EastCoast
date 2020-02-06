@@ -14,6 +14,31 @@ library(ggplot2) #helps us with visualization [helpful cheatsheet](https://www.r
 library(data.table) #deals with large datasets
 ```
 
+Here, we'll upload the raw data from [Ocean Adapt](https://github.com/pinskylab/OceanAdapt), accessed Fall 2019. 
+
+Raw files stored in [Box folder](https://rutgers.app.box.com/folder/90175159431)
+```{r data upload}
+#NEUS
+load("neus_Survdat.Rdata")
+load("neus_SVSPP.Rdata")
+
+#Gulf
+load("gulf_trawl_data.Rdata")
+
+#SEUS
+
+load("seus_trawl_data.Rdata")
+
+#Scotian Shelf
+
+shelf_file_list <- Sys.glob(path="RV*.RData") 
+
+for (i in 1:length(shelf_file_list)) {
+  load(shelf_file_list[i])
+}
+
+```
+
 
 ###NEUS Data
 
