@@ -76,7 +76,16 @@ colnames(glf_trawl_red)
 glf_reduced <- left_join(glf_individ_red, glf_trawl_red, by = c("CRUISE_NO", "P_STA_NO")) #vector memory exhausted
 #this appears to be a computer problem, as it's running on my computer
 
+#using Cruise_No and P_Sta_No make sense because the same station would never be visited more than once during a cruise
+
 ```
 
 
+_________________
+####Final Goal: Merge all datasets so that we can look at how length varies across latitude, temperature, and other predictor variables. Before, we'll have to verify that all units are the same! It looks like because we'll have to continue doing merges, we'll have to do it on a lab computer. 
 
+Ex: 
+
+| year | species | location | temperature | length | number |
+|---|---|---|---|---|---|
+|1970 | Homarus americanus | 34.456 | 3 | 45 | number |
