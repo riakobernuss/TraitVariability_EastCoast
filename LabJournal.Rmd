@@ -229,3 +229,13 @@ output: html_notebook
 
 * lab meeting
 * 1 hour
+
+*****
+
+**February 6, 2020**
+
+* the memory exhaustion struggle continues
+* going to Tuckerton March 25th
+* almost finished with data reduction code
+* figuring out Scotian data
+* will move on to some lit reviews next week
