@@ -96,34 +96,33 @@ seus_reduced <- left_join(seus_creduced, seus_sreduced, by = "EVENTNAME")
 
 ###Scotian Data
 
-Reduce Scotian data.
-```{r reduce Scotian}
-gsdet_reduced <- GSDET[, c("MISSION", "SPEC", "FSHNO", "FLEN", "FSEX", "FMAT", "FWT")]
-gsinf_reduced <- GSINF[, c("MISSION", "SDATE", "TIME", "STRAT", "SLAT", "SLONG", "AREA", "DIST", "SPEED", "DEPTH", "SURFACE_TEMPERATURE", "BOTTOM_TEMPERATURE", "BOTTOM_SALINITY", "LATITUDE", "LONGITUDE")]
-```
+```{r Scotian merge and reduce}
+#memory exhausted, ran on Zoë's computer, output below
+load("DFO_ScotianShelf_RVSurvey_20191031/RV.GSDET.Rdata")
+load("DFO_ScotianShelf_RVSurvey_20191031/RV.GSCAT.Rdata")
+load("DFO_ScotianShelf_RVSurvey_20191031/RV.GSINF.Rdata")
+load("DFO_ScotianShelf_RVSurvey_20191031/RV.GSSPECIES.Rdata")
 
-Rename columns so merge is possible.
-```{r rename Scotian}
-names(gsdet_reduced)[names(gsdet_reduced) == "FSHNO"] <- "CODE"
-```
+GSDET <- data.table(GSDET)
 
-Merge Scotian data.
-```{r merege by CODE}
-scot_full <- left_join(gsdet_reduced, GSSPECIES, by = "CODE")
-```
+GSDET.r <- GSDET[, .(MISSION, SETNO, SPEC, FSHNO, FLEN, FSEX, FMAT, FWT, AGE)]
+GSCAT <- data.table(GSCAT)
 
-```{r merge Scotian}
-scot_recuded <- left_join(scot_full, gsinf_reduced, by = "MISSION")
-#not sure if this is what they should be merged by, could be SETNO?
+GSCAT.r <- GSCAT[, .(MISSION, SETNO, SPEC, TOTWGT, TOTNO, LENGTH_TYPE, LENGTH_UNITS, WEIGHT_TYPE, WEIGHT_UNITS)]
+GSINF <- data.table(GSINF)
+
+GSINF.r <- GSINF[, .(MISSION, SETNO, SDATE, SLAT, SLONG, ELAT, ELONG, START_DEPTH, END_DEPTH, SURFACE_TEMPERATURE, BOTTOM_TEMPERATURE, BOTTOM_SALINITY)]
+GSSPECIES <- data.table(GSSPECIES)
+
+GSSPECIES.r <- GSSPECIES[, .(SPEC, COMM, CODE)]
+GSDET_CAT_merge <- left_join(GSDET.r, GSCAT.r, by = c("MISSION", "SETNO", "SPEC"))
+GSDET_CAT_INF_merge <- left_join(GSDET_CAT_merge, GSINF.r, by = c("MISSION", "SETNO"))
+GSDET_CAT_INF_SPE_merge <- left_join(GSDET_CAT_INF_merge, GSSPECIES.r, by = c("SPEC" = "CODE"))     
+
+save(GSDET_CAT_INF_SPE_merge, file = "GSDET_CAT_INF_SPE_merge.RData")
 
 ```
 
 _________________
 ####Final Goal: Merge all datasets so that we can look at how length varies across latitude, temperature, and other predictor variables. Before, we'll have to verify that all units are the same! It looks like because we'll have to continue doing merges, we'll have to do it on a lab computer. 
 
-
-Ex: 
-
-| year | species | location | temperature | length | number |
-|---|---|---|---|---|---|
-|1970 | Homarus americanus | 34.456 | 3 | 45 | number |
