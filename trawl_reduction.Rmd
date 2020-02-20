@@ -75,8 +75,16 @@ colnames(glf_trawl_red)
 
 glf_reduced <- left_join(glf_individ_red, glf_trawl_red, by = c("CRUISE_NO", "P_STA_NO")) #vector memory exhausted
 #this appears to be a computer problem, as it's running on my computer
-
+glf_reduced.dt <- data.table(glf_reduced)
+capitalize <- function(x){
+first <- toupper(substr(x, start=1, stop=1)) ## capitalize first letter
+rest <- tolower(substr(x, start=2, stop=nchar(x)))## everything else lowercase
+paste0(first, rest)
+}
+glf_reduced.dt[, "sciname" := capitalize(paste(GENUS_GLF, SPEC_GLF, sep = " "))]
 #using Cruise_No and P_Sta_No make sense because the same station would never be visited more than once during a cruise
+
+save(glf_reduced.dt, file = "glf_reduced.Rdata")
 
 ```
 
@@ -92,6 +100,7 @@ seus_sreduced <- seus_specimens[, c("DATE", "EVENTNAME", "SPECIESSCIENTIFICNAME"
 Merge SEUS data.
 ```{r merge SEUS}
 seus_reduced <- left_join(seus_creduced, seus_sreduced, by = "EVENTNAME")
+save(seus_reduced, file = "seus_reduced.Rdata")
 ```
 
 ###Scotian Data

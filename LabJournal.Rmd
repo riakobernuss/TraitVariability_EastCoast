@@ -239,3 +239,25 @@ output: html_notebook
 * almost finished with data reduction code
 * figuring out Scotian data
 * will move on to some lit reviews next week
+
+*****
+
+**February 12, 2020**
+
+* lab meeting
+* 1 hour
+
+*****
+**February 13, 2020**
+
+* finished code to reduced data tables
+* 3 hours
+
+*****
+
+**February 20, 2020**
+
+* made table for species in each regions
+* combined
+* find species in 3 or more regions
+* 3 hours
