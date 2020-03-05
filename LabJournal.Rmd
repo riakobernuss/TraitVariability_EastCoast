@@ -261,3 +261,23 @@ output: html_notebook
 * combined
 * find species in 3 or more regions
 * 3 hours
+
+*****
+
+**March 4, 2020**
+
+* lab meeting
+* 1 hour
+
+*****
+
+**March 5, 2020**
+
+* compiling box crab data
+* keeping variables shared by all datasets
+* keeping start lat/long
+* keeping bottom temp
+* renamed all columns and arragned them in the same way
+* stuck on the bind
+* alomst done!!!
+* 3 hours
