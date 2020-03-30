@@ -1,0 +1,33 @@
+name,ID,date_manufacture,color
+Mazda RX4,1,2/25/12,blue
+Mazda RX4 Wag,2,3/2/12,silver
+Datsun 710,3,1/24/12,silver
+Hornet 4 Drive,4,3/8/12,blue
+Hornet Sportabout,5,2/6/12,red
+Valiant,6,2/14/12,black
+Duster 360,7,2/23/12,black
+Merc 240D,8,3/12/12,white
+Merc 230,9,3/14/12,white
+Merc 280,10,2/22/12,black
+Merc 280C,11,1/22/12,white
+Merc 450SE,12,2/5/12,silver
+Merc 450SL,13,2/1/12,grey
+Merc 450SLC,14,2/15/12,grey
+Cadillac Fleetwood,15,3/18/12,white
+Lincoln Continental,16,3/4/12,white
+Chrysler Imperial,17,3/15/12,silver
+Fiat 128,18,2/28/12,black
+Honda Civic,19,3/6/12,red
+Toyota Corolla,20,3/7/12,yellow
+Toyota Corona,21,2/26/12,orange
+Dodge Challenger,22,1/28/12,black
+AMC Javelin,23,2/11/12,blue
+Camaro Z28,24,2/21/12,silver
+Pontiac Firebird,25,2/10/12,black
+Fiat X1-9,26,2/9/12,red
+Porsche 914-2,27,2/27/12,red
+Lotus Europa,28,1/27/12,silver
+Ford Pantera L,29,3/9/12,blue
+Ferrari Dino,30,1/31/12,red
+Maserati Bora,31,2/13/12,blue
+Volvo 142E,32,2/4/12,silver

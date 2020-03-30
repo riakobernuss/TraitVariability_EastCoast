@@ -89,14 +89,195 @@ output: html_notebook
 *****
 
 **October 24, 2019**
+
 * review postdoc application
 * 1 hour
 
 *****
 
 **October 25, 2019**
+
 * went over background revisions
 * started looking at trawl data sets
 * research to decipher column names
 * starting revising background
+* 3 hours
+
+*****
+
+**October 31,2019**
+
+* HALLOWEEN
+* lab meeting
+* 1 hour
+
+******
+
+**November 1, 2019**
+
+* lots of work on background
+* kind of started tutorial
+* 3 hours
+
+*****
+
+**November 7, 2019**
+
+* OceanAdapt discussion
+* 1 hour
+
+*****
+
+**November 10, 2019**
+
+* more struggle with tutorial
+* more background progress
+* 3 hours
+
+*****
+
+**November 14, 2019**
+
+* lab meeting
+* 1 hour
+
+*****
+
+**November 15, 2019**
+
+* success with tutorial!
+* moved files to correct location
+* discussed upcoming work
+* began finding column names
+* 3 hours
+
+*****
+
+**November 21, 2019**
+
+* posting code with published work
+* "release"
+* 1 hour
+
+*****
+
+**November 22, 2019**
+
+* basically finished with column names, at least what is possible
+* figuring out which columns to use
+* 3 hours
+
+*****
+
+**November 26, 2019**
+
+* finished background (draft 2)
+* neus full (success!!)
+* 3 hours
+
+*****
+
+**December 5, 2019**
+
+* clownfish carol
+* 1 hour
+
+*****
+
+**December 6, 2019**
+
+* picking comlunms
+* glf_full
+* starting to delete columns
+* 3 hours
+
+*****
+
+**December 12, 2019**
+
+* final touches on paper
+* last lab meeting
+* 2 hours
+
+*****
+
+**Decemebr 13, 2019**
+
+* semester debrief
+* reduced data from 3 locations
+* 4 hours
+
+*****
+
+**January 29, 2020**
+
+* lab meeting
+* 1 hour
+
+*****
+
+**January 30, 2020**
+
+* first day!!
+* writing code for reduced and merged data tables
+* stuck on GLF, "vector memory exhausted"
+* 3 hours
+
+******
+
+**February 5, 2020**
+
+* lab meeting
+* 1 hour
+
+*****
+
+**February 6, 2020**
+
+* the memory exhaustion struggle continues
+* going to Tuckerton March 25th
+* almost finished with data reduction code
+* figuring out Scotian data
+* will move on to some lit reviews next week
+
+*****
+
+**February 12, 2020**
+
+* lab meeting
+* 1 hour
+
+*****
+**February 13, 2020**
+
+* finished code to reduced data tables
+* 3 hours
+
+*****
+
+**February 20, 2020**
+
+* made table for species in each regions
+* combined
+* find species in 3 or more regions
+* 3 hours
+
+*****
+
+**March 4, 2020**
+
+* lab meeting
+* 1 hour
+
+*****
+
+**March 5, 2020**
+
+* compiling box crab data
+* keeping variables shared by all datasets
+* keeping start lat/long
+* keeping bottom temp
+* renamed all columns and arragned them in the same way
+* stuck on the bind
+* alomst done!!!
 * 3 hours

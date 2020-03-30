@@ -1,0 +1,50 @@
+---
+title: "Interesting Species"
+output: html_notebook
+---
+
+```{r setup}
+#data load
+load("glf_reduced.Rdata")
+load("neus_reduced.Rdata")
+load("seus_reduced.Rdata")
+load("GSDET_CAT_INF_SPE_merge.Rdata")
+
+library(dplyr)
+library(data.table)
+
+capitalize <- function(x){
+first <- toupper(substr(x, start=1, stop=1)) ## capitalize first letter
+rest <- tolower(substr(x, start=2, stop=nchar(x)))## everything else lowercase
+paste0(first, rest)
+}
+```
+
+### NEUS species
+```{r neus}
+neus_species <- capitalize(unique(as.character(neus_reduced$SCINAME)))
+neus_species.dt <- data.table("species" = neus_species, "region" = "neus")
+```
+
+### SEUS species
+```{r seus}
+seus_species <- capitalize(unique(seus_reduced$SPECIESSCIENTIFICNAME.x))
+seus_species.dt <- data.table("species" = seus_species, "region" = "seus")
+```
+
+### Gulf species
+```{r gulf}
+glf_species <- capitalize(unique(glf_reduced.dt$sciname))
+glf_species.dt <- data.table("species" = glf_species, "region" = "gulf")
+```
+
+### Scotian species
+```{r scotian}
+scot_species <- capitalize(unique(GSDET_CAT_INF_SPE_merge$SPEC.y))
+scot_species.dt <- data.table("species" = scot_species, "region" = "scotian")
+```
+
+```{r bind tables}
+species_table <- rbind(neus_species.dt, seus_species.dt, glf_species.dt, scot_species.dt)
+```
+
