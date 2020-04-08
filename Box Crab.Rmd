@@ -13,9 +13,7 @@ load("GSDET_CAT_INF_SPE_merge.RData")
 
 library(dplyr)
 library(data.table)
-install.packages("stringr")
 library(stringr)
-install.packages("tibble")
 library(tibble)
 
 capitalize <- function(x){
@@ -27,12 +25,12 @@ paste0(first, rest)
 
 Make spelling edits to Gulf data
 ```{r spelling}
-glf_reduced$SPEC_GLF <- str_replace_all(glf_reduced$SPEC_GLF, "FLAMME", "FLAMMEA")
+glf_reduced.dt$SPEC_GLF <- str_replace_all(glf_reduced.dt$SPEC_GLF, "FLAMME", "FLAMMEA")
 ```
 
 Extract relavent data.
 ```{r extraction}
-glf_boxcrab <- subset(glf_reduced, SPEC_GLF == "FLAMMEA")
+glf_boxcrab <- subset(glf_reduced.dt, SPEC_GLF == "FLAMMEA")
 seus_boxcrab <- subset(seus_reduced, SPECIESSCIENTIFICNAME.x == "CALAPPA FLAMMEA")
 neus_boxcrab <- subset(neus_reduced, SCINAME == "CALAPPA FLAMMEA")
 ```
@@ -62,10 +60,10 @@ neus_boxcrab_red$COMNAME <- capitalize(neus_boxcrab_red$COMNAME)
 
 Reorder columns so they can bind.
 ```{r reorder}
-glf_boxcrab_red <- glf_boxcrab_red[c("SCINAME", "COMNAME", "LENGTH", "SEX", "LATITUDE", "LONGITUDE", "TEMPERATURE", "DATE")]
+glf_boxcrab_red <- glf_boxcrab_red[,c("SCINAME", "COMNAME", "LENGTH", "SEX", "LATITUDE", "LONGITUDE", "TEMPERATURE", "DATE")]
 seus_boxcrab_red <- as.data.frame(seus_boxcrab_red)
-seus_boxcrab_red <- seus_boxcrab_red[c("SCINAME", "COMNAME", "LENGTH", "SEX", "LATITUDE", "LONGITUDE", "TEMPERATURE", "DATE")]
-neus_boxcrab_red <- neus_boxcrab_red[c("SCINAME", "COMNAME", "LENGTH", "SEX", "LATITUDE", "LONGITUDE", "TEMPERATURE", "DATE")]
+seus_boxcrab_red <- seus_boxcrab_red[,c("SCINAME", "COMNAME", "LENGTH", "SEX", "LATITUDE", "LONGITUDE", "TEMPERATURE", "DATE")]
+neus_boxcrab_red <- neus_boxcrab_red[,c("SCINAME", "COMNAME", "LENGTH", "SEX", "LATITUDE", "LONGITUDE", "TEMPERATURE", "DATE")]
 ```
 
 Bind tables.
