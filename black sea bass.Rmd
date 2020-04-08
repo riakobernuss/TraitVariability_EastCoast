@@ -1,0 +1,39 @@
+---
+title: "R Notebook"
+output: Black Sea Bass
+---
+
+Goal: pull data about black sea bass and compile it to one data table.
+
+```{r setup}
+load("glf_reduced.RData")
+load("seus_reduced.RData")
+load("neus_reduced.RData")
+load("GSDET_CAT_INF_SPE_merge.RData")
+
+library(dplyr)
+library(data.table)
+library(stringr)
+library(tibble)
+
+capitalize <- function(x){
+first <- toupper(substr(x, start=1, stop=1)) ## capitalize first letter
+rest <- tolower(substr(x, start=2, stop=nchar(x)))## everything else lowercase
+paste0(first, rest)
+}
+```
+
+Extract relavent data.
+```{r extraction}
+GSDET_CAT_INF_SPE_merge <- subset(GSDET_CAT_INF_SPE_merge, SPEC.y == "CENTROPRISTIS STRIATA")
+seus_boxcrab <- subset(seus_reduced, SPECIESSCIENTIFICNAME.x == "CENTROPRISTIS STRIATA")
+neus_boxcrab <- subset(neus_reduced, SCINAME == "CENTROPRISTIS STRIATA")
+```
+
+Reduce datasets to have same data.
+```{r reduce}
+ <- glf_boxcrab[, c("LEN_GLF", "SEX_GLF", "MO_DAY_YR", "TEMP_BOT", "DECSLAT", "DECSLON")]
+seus_boxcrab <- as.data.table(seus_boxcrab)
+seus_boxcrab_red <- seus_boxcrab[, c("DATE.x", "SPECIESSCIENTIFICNAME.x", "SPECIESCOMMONNAME.x", "TEMPBOTTOM.x", "LATITUDESTART.x", "LONGITUDESTART", "LEN1", "SEXDESCRIPTION")]
+neus_boxcrab_red <- neus_boxcrab[, c("CATCHSEX", "LAT", "LON", "EST_TOWDATE", "BOTTEMP", "LENGTH", "SCINAME", "COMNAME")]
+```
