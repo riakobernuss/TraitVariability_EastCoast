@@ -25,15 +25,64 @@ paste0(first, rest)
 
 Extract relavent data.
 ```{r extraction}
-GSDET_CAT_INF_SPE_merge <- subset(GSDET_CAT_INF_SPE_merge, SPEC.y == "CENTROPRISTIS STRIATA")
-seus_boxcrab <- subset(seus_reduced, SPECIESSCIENTIFICNAME.x == "CENTROPRISTIS STRIATA")
-neus_boxcrab <- subset(neus_reduced, SCINAME == "CENTROPRISTIS STRIATA")
+scot_blackSB <- subset(GSDET_CAT_INF_SPE_merge, SPEC.y == "CENTROPRISTIS STRIATA")
+seus_blackSB <- subset(seus_reduced, SPECIESSCIENTIFICNAME.x == "CENTROPRISTIS STRIATA")
+neus_blackSB <- subset(neus_reduced, SCINAME == "CENTROPRISTIS STRIATA")
 ```
 
 Reduce datasets to have same data.
 ```{r reduce}
- <- glf_boxcrab[, c("LEN_GLF", "SEX_GLF", "MO_DAY_YR", "TEMP_BOT", "DECSLAT", "DECSLON")]
-seus_boxcrab <- as.data.table(seus_boxcrab)
-seus_boxcrab_red <- seus_boxcrab[, c("DATE.x", "SPECIESSCIENTIFICNAME.x", "SPECIESCOMMONNAME.x", "TEMPBOTTOM.x", "LATITUDESTART.x", "LONGITUDESTART", "LEN1", "SEXDESCRIPTION")]
-neus_boxcrab_red <- neus_boxcrab[, c("CATCHSEX", "LAT", "LON", "EST_TOWDATE", "BOTTEMP", "LENGTH", "SCINAME", "COMNAME")]
+scot_blackSB_red<- scot_blackSB[, c("FLEN", "FSEX", "SDATE", "SLAT", "SLONG", "BOTTOM_TEMPERATURE", "SPEC.y", "COMM")]
+seus_blackSB <- as.data.table(seus_blackSB)
+seus_blackSB_red <- seus_blackSB[, c("DATE.x", "SPECIESSCIENTIFICNAME.x", "SPECIESCOMMONNAME.x", "TEMPBOTTOM.x", "LATITUDESTART.x", "LONGITUDESTART", "LEN1", "SEXDESCRIPTION")]
+neus_blackSB_red <- neus_blackSB[, c("CATCHSEX", "LAT", "LON", "EST_TOWDATE", "BOTTEMP", "LENGTH", "SCINAME", "COMNAME")]
 ```
+
+Add and rename columns so they can bind.
+```{r add and rename}
+scot_blackSB_red <- rename(scot_blackSB_red, "LENGTH" = "FLEN", "SEX" = "FSEX", "TEMPERATURE" = "BOTTOM_TEMPERATURE", "LATITUDE" = "SLAT", "LONGITUDE" = "SLONG", "DATE" = "SDATE", "SCINAME" = "SPEC.y", "COMNAME" = "COMM")
+scot_blackSB_red$SCINAME <- capitalize(scot_blackSB_red$SCINAME)
+scot_blackSB_red$comname <- capitalize(scot_blackSB_red$COMNAME)
+seus_blackSB_red <- rename(seus_blackSB_red, "DATE" = "DATE.x", "SCINAME" = "SPECIESSCIENTIFICNAME.x", "COMNAME" = "SPECIESCOMMONNAME.x", "TEMPERATURE" = "TEMPBOTTOM.x", "LATITUDE" = "LATITUDESTART.x", "LONGITUDE" = "LONGITUDESTART", "LENGTH" = "LEN1", "SEX" = "SEXDESCRIPTION")
+seus_blackSB_red$SCINAME <- capitalize(seus_blackSB_red$SCINAME)
+seus_blackSB_red$COMNAME <- capitalize(seus_blackSB_red$COMNAME)
+neus_blackSB_red <- rename(neus_blackSB_red, "SEX" = "CATCHSEX", "LATITUDE" = "LAT", "LONGITUDE" = "LON", "DATE" = "EST_TOWDATE", "TEMPERATURE" = "BOTTEMP")
+neus_blackSB_red$SCINAME <- as.character(neus_blackSB_red$SCINAME)
+neus_blackSB_red$SCINAME <- capitalize(neus_blackSB_red$SCINAME)
+neus_blackSB_red$COMNAME <- as.character(neus_blackSB_red$COMNAME)
+neus_blackSB_red$COMNAME <- capitalize(neus_blackSB_red$COMNAME)
+```
+
+Reorder columns so they can bind.
+```{r reorder}
+scot_blackSB_red <- scot_blackSB_red[,c("SCINAME", "COMNAME", "LENGTH", "SEX", "LATITUDE", "LONGITUDE", "TEMPERATURE", "DATE")]
+seus_blackSB_red <- as.data.frame(seus_blackSB_red)
+seus_blackSB_red <- seus_blackSB_red[,c("SCINAME", "COMNAME", "LENGTH", "SEX", "LATITUDE", "LONGITUDE", "TEMPERATURE", "DATE")]
+neus_blackSB_red <- neus_blackSB_red[,c("SCINAME", "COMNAME", "LENGTH", "SEX", "LATITUDE", "LONGITUDE", "TEMPERATURE", "DATE")]
+```
+
+Fix classes.
+```{r classes}
+scot_blackSB_red$LENGTH <- as.numeric(scot_blackSB_red$LENGTH)
+scot_blackSB_red$LATITUDE <- as.numeric(scot_blackSB_red$LATITUDE)
+scot_blackSB_red$LONGITUDE <- as.numeric(scot_blackSB_red$LONGITUDE)
+scot_blackSB_red$TEMPERATURE <- as.numeric(scot_blackSB_red$TEMPERATURE)
+scot_blackSB_red$DATE <- as.Date(scot_blackSB_red$DATE)
+seus_blackSB_red$LENGTH <- as.numeric(seus_blackSB_red$LENGTH)
+seus_blackSB_red$LATITUDE <- as.numeric(seus_blackSB_red$LATITUDE)
+seus_blackSB_red$LONGITUDE <- as.numeric(seus_blackSB_red$LONGITUDE)
+seus_blackSB_red$TEMPERATURE <- as.numeric(seus_blackSB_red$TEMPERATURE)
+seus_blackSB_red$DATE <- as.Date(seus_blackSB_red$DATE, format = "%m-%d-%Y")
+neus_blackSB_red$LENGTH <- as.numeric(neus_blackSB_red$LENGTH)
+neus_blackSB_red$LATITUDE <- as.numeric(neus_blackSB_red$LATITUDE)
+neus_blackSB_red$LONGITUDE <- as.numeric(neus_blackSB_red$LONGITUDE)
+neus_blackSB_red$TEMPERATURE <- as.numeric(neus_blackSB_red$TEMPERATURE)
+neus_blackSB_red$DATE <- as.Date(neus_blackSB_red$DATE)
+```
+
+Bind tables.
+```{r bind}
+
+```
+
+

@@ -24,6 +24,7 @@ paste0(first, rest)
 ```{r neus}
 neus_species <- capitalize(unique(as.character(neus_reduced$SCINAME)))
 neus_species.dt <- data.table("species" = neus_species, "region" = "neus")
+
 ```
 
 ### SEUS species

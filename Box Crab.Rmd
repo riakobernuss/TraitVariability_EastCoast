@@ -61,17 +61,74 @@ neus_boxcrab_red$COMNAME <- capitalize(neus_boxcrab_red$COMNAME)
 Reorder columns so they can bind.
 ```{r reorder}
 glf_boxcrab_red <- glf_boxcrab_red[,c("SCINAME", "COMNAME", "LENGTH", "SEX", "LATITUDE", "LONGITUDE", "TEMPERATURE", "DATE")]
+<<<<<<< HEAD
 seus_boxcrab_red <- as.data.frame(seus_boxcrab_red)
 seus_boxcrab_red <- seus_boxcrab_red[,c("SCINAME", "COMNAME", "LENGTH", "SEX", "LATITUDE", "LONGITUDE", "TEMPERATURE", "DATE")]
 neus_boxcrab_red <- neus_boxcrab_red[,c("SCINAME", "COMNAME", "LENGTH", "SEX", "LATITUDE", "LONGITUDE", "TEMPERATURE", "DATE")]
+=======
+seus_boxcrab_red <- seus_boxcrab_red[,c("SCINAME", "COMNAME", "LENGTH", "SEX", "LATITUDE", "LONGITUDE", "TEMPERATURE", "DATE")]
+neus_boxcrab_red <- neus_boxcrab_red[,c("SCINAME", "COMNAME", "LENGTH", "SEX", "LATITUDE", "LONGITUDE", "TEMPERATURE", "DATE")]
+
+##FOR EACH COMMAND HERE ZJK ADDED A COMMA BEFORE c("SCINAME"...etc) to specify that we want to keep these columns (data table syntax = [row,column])
+
+
+>>>>>>> 311521ec7559ccac3b2e7d9a12e65c910afa4ca3
 ```
 
 Bind tables.
 ```{r bind}
-glf_boxcrab_red.dt <- as.data.table(glf_boxcrab_red)
-seus_boxcrab_red.dt <- as.data.table(seus_boxcrab_red)
-neus_boxcrab_red.dt <- as.data.table(neus_boxcrab_red)
-boxcrab_table <- rbind(glf_boxcrab_red.dt, neus_boxcrab_red.dt, seus_boxcrab_red.dt)
+
+##I hashed out the 3 commands below because these objects should already be data tables
+#glf_boxcrab_red.dt <- as.data.table(glf_boxcrab_red)
+#seus_boxcrab_red.dt <- as.data.table(seus_boxcrab_red)
+#neus_boxcrab_red.dt <- as.data.table(neus_boxcrab_red)
+boxcrab_table <- rbind(glf_boxcrab_red, neus_boxcrab_red, seus_boxcrab_red)
+#I couldn't get this to work either, see below
+
+
+class(glf_boxcrab_red)
+```
+Ria: I tried to perform the function above, and got an error message (probably the same you were getting), I think it's because the class of each of the columns is different depending on the region. For example,
+```{r structure for neus}
+str(neus_boxcrab_red)
 ```
 
+'data.frame':	4 obs. of  8 variables:
+ $ SCINAME    : chr  "Calappa flammea" "Calappa flammea" "Calappa flammea" "Calappa flammea"
+ $ COMNAME    : chr  "Flame box crab" "Flame box crab" "Flame box crab" "Flame box crab"
+ $ LENGTH     : num  NA 2 8 10
+ $ SEX        : int  0 0 0 0
+ $ LATITUDE   : num  36.4 36 39.8 33.3
+ $ LONGITUDE  : num  -75.7 -75.3 -72 -77.7
+ $ TEMPERATURE: num  9.5 6.8 8.3 14
+ $ DATE       : POSIXct, format: "1976-03-21 22:56:00" "1977-03-23 13:29:00" "1977-04-04 13:57:00" "1981-03-24 23:09:00"
+ 
+But for SEUS, 
+```{r structure for seus}
+str(seus_boxcrab_red)
+```
+Classes ‘data.table’ and 'data.frame':	13096 obs. of  8 variables:
+ $ SCINAME    : chr  "Calappa flammea" "Calappa flammea" "Calappa flammea" "Calappa flammea" ...
+ $ COMNAME    : chr  "Flame box crab" "Flame box crab" "Flame box crab" "Flame box crab" ...
+ $ LENGTH     : chr  "146" "131" "134" "136" ...
+ $ SEX        : chr  "FEMALE" "MALE" "MALE" "MALE" ...
+ $ LATITUDE   : chr  "32.4780" "32.4780" "32.4780" "32.4780" ...
+ $ LONGITUDE  : chr  "-80.1380" "-80.1380" "-80.1380" "-80.1380" ...
+ $ TEMPERATURE: chr  "14.70" "14.70" "14.70" "14.70" ...
+ $ DATE       : chr  "04-13-1989" "04-13-1989" "04-13-1989" "04-13-1989" ...
+ - attr(*, ".internal.selfref")=<externalptr> 
+ 
+ **Before you try to rbind the rows, they structure for all three should be (I've written out the full names, but you can see the abbreviations to expect above):**
+ Classes ‘data.table’ and 'data.frame':	13096 obs. of  8 variables:
+ $ SCINAME    : character  
+ $ COMNAME    : character  
+ $ LENGTH     : numeric  
+ $ SEX        : factor  
+ $ LATITUDE   : numeric  
+ $ LONGITUDE  : numeric  
+ $ TEMPERATURE: numeric  
+ $ DATE       : date  
+ 
+If you play around with as.numeric(), as.factor(), and as.Date() functions on columns before binding, this should solve your problem. Converting the date may be a little tricky, but this [website](https://www.statmethods.net/input/dates.html) may be helpful.
 
+ 
