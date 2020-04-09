@@ -82,7 +82,10 @@ neus_blackSB_red$DATE <- as.Date(neus_blackSB_red$DATE)
 
 Bind tables.
 ```{r bind}
-
+scot_blackSB_red.dt <- as.data.table(scot_blackSB_red)
+seus_blackSB_red.dt <- as.data.table(seus_blackSB_red)
+neus_blackSB_red.dt <- as.data.table(neus_blackSB_red)
+blackSB_table <- rbind(scot_blackSB_red.dt, seus_blackSB_red.dt, neus_blackSB_red.dt)
 ```
 
 
