@@ -1,0 +1,89 @@
+---
+title: "R Notebook"
+output: Sunfish
+---
+
+Goal: pull data about black sunfish and compile it to one data table.
+
+```{r setup}
+load("glf_reduced.RData")
+load("seus_reduced.RData")
+load("neus_reduced.RData")
+load("GSDET_CAT_INF_SPE_merge.RData")
+
+library(dplyr)
+library(data.table)
+library(stringr)
+library(tibble)
+
+capitalize <- function(x){
+first <- toupper(substr(x, start=1, stop=1)) ## capitalize first letter
+rest <- tolower(substr(x, start=2, stop=nchar(x)))## everything else lowercase
+paste0(first, rest)
+}
+```
+
+Extract relavent data.
+```{r extraction}
+scot_sunfish <- subset(GSDET_CAT_INF_SPE_merge, SPEC.y == "MOLA MOLA")
+seus_sunfish <- subset(seus_reduced, SPECIESSCIENTIFICNAME.x == "CMOLA MOLA")
+neus_sunfish <- subset(neus_reduced, SCINAME == "MOLA MOLA")
+```
+
+Reduce datasets to have same data.
+```{r reduce}
+scot_sunfish_red<- scot_sunfish[, c("FLEN", "FSEX", "SDATE", "SLAT", "SLONG", "BOTTOM_TEMPERATURE", "SPEC.y", "COMM")]
+seus_sunfish <- as.data.table(seus_sunfish)
+seus_sunfish_red <- seus_sunfish[, c("DATE.x", "SPECIESSCIENTIFICNAME.x", "SPECIESCOMMONNAME.x", "TEMPBOTTOM.x", "LATITUDESTART.x", "LONGITUDESTART", "LEN1", "SEXDESCRIPTION")]
+neus_sunfish_red <- neus_sunfish[, c("CATCHSEX", "LAT", "LON", "EST_TOWDATE", "BOTTEMP", "LENGTH", "SCINAME", "COMNAME")]
+```
+
+Add and rename columns so they can bind.
+```{r add and rename}
+scot_sunfish_red <- rename(scot_sunfish_red, "LENGTH" = "FLEN", "SEX" = "FSEX", "TEMPERATURE" = "BOTTOM_TEMPERATURE", "LATITUDE" = "SLAT", "LONGITUDE" = "SLONG", "DATE" = "SDATE", "SCINAME" = "SPEC.y", "COMNAME" = "COMM")
+scot_sunfish_red$SCINAME <- capitalize(scot_sunfish_red$SCINAME)
+scot_sunfish_red$COMNAME <- capitalize(scot_sunfish_red$COMNAME)
+seus_sunfish_red <- rename(seus_sunfish_red, "DATE" = "DATE.x", "SCINAME" = "SPECIESSCIENTIFICNAME.x", "COMNAME" = "SPECIESCOMMONNAME.x", "TEMPERATURE" = "TEMPBOTTOM.x", "LATITUDE" = "LATITUDESTART.x", "LONGITUDE" = "LONGITUDESTART", "LENGTH" = "LEN1", "SEX" = "SEXDESCRIPTION")
+seus_sunfish_red$SCINAME <- capitalize(seus_sunfish_red$SCINAME)
+seus_sunfish_red$COMNAME <- capitalize(seus_sunfish_red$COMNAME)
+neus_sunfish_red <- rename(neus_sunfish_red, "SEX" = "CATCHSEX", "LATITUDE" = "LAT", "LONGITUDE" = "LON", "DATE" = "EST_TOWDATE", "TEMPERATURE" = "BOTTEMP")
+neus_sunfish_red$SCINAME <- as.character(neus_sunfish_red$SCINAME)
+neus_sunfish_red$SCINAME <- capitalize(neus_sunfish_red$SCINAME)
+neus_sunfish_red$COMNAME <- as.character(neus_sunfish_red$COMNAME)
+neus_sunfish_red$COMNAME <- capitalize(neus_sunfish_red$COMNAME)
+```
+
+Reorder columns so they can bind.
+```{r reorder}
+scot_sunfish_red <- scot_sunfish_red[,c("SCINAME", "COMNAME", "LENGTH", "SEX", "LATITUDE", "LONGITUDE", "TEMPERATURE", "DATE")]
+seus_sunfish_red <- as.data.frame(seus_sunfish_red)
+seus_sunfish_red <- seus_sunfish_red[,c("SCINAME", "COMNAME", "LENGTH", "SEX", "LATITUDE", "LONGITUDE", "TEMPERATURE", "DATE")]
+neus_sunfish_red <- neus_sunfish_red[,c("SCINAME", "COMNAME", "LENGTH", "SEX", "LATITUDE", "LONGITUDE", "TEMPERATURE", "DATE")]
+```
+
+Fix classes.
+```{r classes}
+scot_sunfish_red$LENGTH <- as.numeric(scot_sunfish_red$LENGTH)
+scot_sunfish_red$LATITUDE <- as.numeric(scot_sunfish_red$LATITUDE)
+scot_sunfish_red$LONGITUDE <- as.numeric(scot_sunfish_red$LONGITUDE)
+scot_sunfish_red$TEMPERATURE <- as.numeric(scot_sunfish_red$TEMPERATURE)
+scot_sunfish_red$DATE <- as.Date(scot_sunfish_red$DATE)
+seus_sunfish_red$LENGTH <- as.numeric(seus_sunfish_red$LENGTH)
+seus_sunfish_red$LATITUDE <- as.numeric(seus_sunfish_red$LATITUDE)
+seus_sunfish_red$LONGITUDE <- as.numeric(seus_sunfish_red$LONGITUDE)
+seus_sunfish_red$TEMPERATURE <- as.numeric(seus_sunfish_red$TEMPERATURE)
+seus_sunfish_red$DATE <- as.Date(seus_sunfish_red$DATE, format = "%m-%d-%Y")
+neus_sunfish_red$LENGTH <- as.numeric(neus_sunfish_red$LENGTH)
+neus_sunfish_red$LATITUDE <- as.numeric(neus_sunfish_red$LATITUDE)
+neus_sunfish_red$LONGITUDE <- as.numeric(neus_sunfish_red$LONGITUDE)
+neus_sunfish_red$TEMPERATURE <- as.numeric(neus_sunfish_red$TEMPERATURE)
+neus_sunfish_red$DATE <- as.Date(neus_sunfish_red$DATE)
+```
+
+Bind tables.
+```{r bind}
+scot_sunfish_red.dt <- as.data.table(scot_sunfish_red)
+seus_sunfish_red.dt <- as.data.table(seus_sunfish_red)
+neus_sunfish_red.dt <- as.data.table(neus_sunfish_red)
+sunfish_table <- rbind(scot_sunfish_red.dt, seus_sunfish_red.dt, neus_sunfish_red.dt)
+```
