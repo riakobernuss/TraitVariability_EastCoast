@@ -1,0 +1,86 @@
+---
+title: "R Notebook"
+output: Longfin Squid
+---
+Goal: pull data about longfin inshore squid and compile it to one data table.
+
+```{r setup}
+load("glf_reduced.RData")
+load("seus_reduced.RData")
+load("neus_reduced.RData")
+load("GSDET_CAT_INF_SPE_merge.RData")
+
+library(dplyr)
+library(data.table)
+library(stringr)
+library(tibble)
+
+capitalize <- function(x){
+first <- toupper(substr(x, start=1, stop=1)) ## capitalize first letter
+rest <- tolower(substr(x, start=2, stop=nchar(x)))## everything else lowercase
+paste0(first, rest)
+}
+```
+
+Make spelling edits to Gulf data
+```{r spelling}
+glf_reduced.dt$SPEC_GLF <- str_replace_all(glf_reduced.dt$SPEC_GLF, "PEALEI", "PEALEII")
+```
+
+Extract relavent data.
+```{r extraction}
+glf_LFsquid <- subset(glf_reduced.dt, SPEC_GLF == "PEALEII")
+neus_LFsquid <- subset(neus_reduced, SCINAME == "LOLIGO PEALEII")
+scot_LFsquid <- subset(GSDET_CAT_INF_SPE_merge, SPEC.y == "LOLIGO PEALEII")
+```
+
+Reduce datasets to have same data.
+```{r reduce}
+glf_LFsquid_red <- glf_LFsquid[, c("LEN_GLF", "SEX_GLF", "MO_DAY_YR", "TEMP_BOT", "DECSLAT", "DECSLON")]
+neus_LFsquid_red <- neus_LFsquid[, c("CATCHSEX", "LAT", "LON", "EST_TOWDATE", "BOTTEMP", "LENGTH", "SCINAME", "COMNAME")]
+scot_LFsquid_red<- scot_LFsquid[, c("FLEN", "FSEX", "SDATE", "SLAT", "SLONG", "BOTTOM_TEMPERATURE", "SPEC.y", "COMM")]
+```
+
+Add and rename columns so they can bind.
+```{r add and rename}
+glf_LFsquid_red <- add_column(glf_LFsquid_red, SCINAME = "Loligo pealeii")
+glf_LFsquid_red <- add_column(glf_LFsquid_red, COMNAME = "Longfin squid")
+glf_LFsquid_red <- rename(glf_LFsquid_red, "LENGTH" = "LEN_GLF", "SEX" = "SEX_GLF", "TEMPERATURE" = "TEMP_BOT", "LATITUDE" = "DECSLAT", "LONGITUDE" = "DECSLON", "DATE" = "MO_DAY_YR")
+neus_LFsquid_red <- rename(neus_LFsquid_red, "SEX" = "CATCHSEX", "LATITUDE" = "LAT", "LONGITUDE" = "LON", "DATE" = "EST_TOWDATE", "TEMPERATURE" = "BOTTEMP")
+neus_LFsquid_red$SCINAME <- as.character(neus_LFsquid_red$SCINAME)
+neus_LFsquid_red$SCINAME <- capitalize(neus_LFsquid_red$SCINAME)
+neus_LFsquid_red$COMNAME <- as.character(neus_LFsquid_red$COMNAME)
+neus_LFsquid_red$COMNAME <- capitalize(neus_LFsquid_red$COMNAME)
+scot_LFsquid_red <- rename(scot_LFsquid_red, "LENGTH" = "FLEN", "SEX" = "FSEX", "TEMPERATURE" = "BOTTOM_TEMPERATURE", "LATITUDE" = "SLAT", "LONGITUDE" = "SLONG", "DATE" = "SDATE", "SCINAME" = "SPEC.y", "COMNAME" = "COMM")
+scot_LFsquid_red$SCINAME <- capitalize(scot_LFsquid_red$SCINAME)
+scot_LFsquid_red$comname <- capitalize(scot_LFsquid_red$COMNAME)
+```
+
+Reorder columns so they can bind.
+```{r reorder}
+glf_LFsquid_red <- glf_LFsquid_red[,c("SCINAME", "COMNAME", "LENGTH", "SEX", "LATITUDE", "LONGITUDE", "TEMPERATURE", "DATE")]
+neus_LFsquid_red <- neus_LFsquid_red[,c("SCINAME", "COMNAME", "LENGTH", "SEX", "LATITUDE", "LONGITUDE", "TEMPERATURE", "DATE")]
+scot_LFsquid_red <- scot_LFsquid_red[,c("SCINAME", "COMNAME", "LENGTH", "SEX", "LATITUDE", "LONGITUDE", "TEMPERATURE", "DATE")]
+```
+
+Fix classes
+```{r classes}
+neus_LFsquid_red$LENGTH <- as.numeric(neus_LFsquid_red$LENGTH)
+neus_LFsquid_red$LATITUDE <- as.numeric(neus_LFsquid_red$LATITUDE)
+neus_LFsquid_red$LONGITUDE <- as.numeric(neus_LFsquid_red$LONGITUDE)
+neus_LFsquid_red$TEMPERATURE <- as.numeric(neus_LFsquid_red$TEMPERATURE)
+neus_LFsquid_red$DATE <- as.Date(neus_LFsquid_red$DATE)
+scot_LFsquid_red$LENGTH <- as.numeric(scot_LFsquid_red$LENGTH)
+scot_LFsquid_red$LATITUDE <- as.numeric(scot_LFsquid_red$LATITUDE)
+scot_LFsquid_red$LONGITUDE <- as.numeric(scot_LFsquid_red$LONGITUDE)
+scot_LFsquid_red$TEMPERATURE <- as.numeric(scot_LFsquid_red$TEMPERATURE)
+scot_LFsquid_red$DATE <- as.Date(scot_LFsquid_red$DATE)
+```
+
+Bind tables.
+```{r bind}
+glf_LFsquid_red.dt <- as.data.table(glf_LFsquid_red)
+neus_LFsquid_red.dt <- as.data.table(neus_LFsquid_red)
+scot_LFsquid_red.dt <- as.data.table(scot_LFsquid_red)
+LFsquid_table <- rbind(glf_LFsquid_red, neus_LFsquid_red, scot_LFsquid_red)
+```
