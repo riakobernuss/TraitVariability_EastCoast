@@ -6,7 +6,6 @@ Goal: pull data about longfin inshore squid and compile it to one data table.
 
 ```{r setup}
 load("glf_reduced.RData")
-load("seus_reduced.RData")
 load("neus_reduced.RData")
 load("GSDET_CAT_INF_SPE_merge.RData")
 

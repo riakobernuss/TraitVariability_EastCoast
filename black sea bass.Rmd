@@ -6,7 +6,6 @@ output: Black Sea Bass
 Goal: pull data about black sea bass and compile it to one data table.
 
 ```{r setup}
-load("glf_reduced.RData")
 load("seus_reduced.RData")
 load("neus_reduced.RData")
 load("GSDET_CAT_INF_SPE_merge.RData")
@@ -42,7 +41,7 @@ Add and rename columns so they can bind.
 ```{r add and rename}
 scot_blackSB_red <- rename(scot_blackSB_red, "LENGTH" = "FLEN", "SEX" = "FSEX", "TEMPERATURE" = "BOTTOM_TEMPERATURE", "LATITUDE" = "SLAT", "LONGITUDE" = "SLONG", "DATE" = "SDATE", "SCINAME" = "SPEC.y", "COMNAME" = "COMM")
 scot_blackSB_red$SCINAME <- capitalize(scot_blackSB_red$SCINAME)
-scot_blackSB_red$comname <- capitalize(scot_blackSB_red$COMNAME)
+scot_blackSB_red$COMNAME <- capitalize(scot_blackSB_red$COMNAME)
 seus_blackSB_red <- rename(seus_blackSB_red, "DATE" = "DATE.x", "SCINAME" = "SPECIESSCIENTIFICNAME.x", "COMNAME" = "SPECIESCOMMONNAME.x", "TEMPERATURE" = "TEMPBOTTOM.x", "LATITUDE" = "LATITUDESTART.x", "LONGITUDE" = "LONGITUDESTART", "LENGTH" = "LEN1", "SEX" = "SEXDESCRIPTION")
 seus_blackSB_red$SCINAME <- capitalize(seus_blackSB_red$SCINAME)
 seus_blackSB_red$COMNAME <- capitalize(seus_blackSB_red$COMNAME)

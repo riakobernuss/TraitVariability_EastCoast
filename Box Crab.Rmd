@@ -9,7 +9,6 @@ Goal: pull data about flamed box crab and compile it to one data table.
 load("glf_reduced.RData")
 load("seus_reduced.RData")
 load("neus_reduced.RData")
-load("GSDET_CAT_INF_SPE_merge.RData")
 
 library(dplyr)
 library(data.table)
