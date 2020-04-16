@@ -82,4 +82,5 @@ glf_lookdown_red.dt <- as.data.table(glf_lookdown_red)
 seus_lookdown_red.dt <- as.data.table(seus_lookdown_red)
 neus_lookdown_red.dt <- as.data.table(neus_lookdown_red)
 lookdown_table <- rbind(glf_lookdown_red, neus_lookdown_red, seus_lookdown_red)
+save(lookdown_table, file = "lookdown_table.RData")
 ```
