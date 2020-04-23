@@ -13,12 +13,17 @@ library(data.table)
 library(stringr)
 library(tibble)
 library(ggplot2)
+library(lubridate)
+
+#Sampled in Gulf 1984-2018
+#Sampled in seus 1989-2018
+#Sampled in neus 1968-2018
 ```
 
 Add a year and month column.
 ```{r add columns}
-lookdown_table[ , YEAR := format(DATE, "%y")]
-lookdown_table[ , MONTH := format(DATE, "%m")]
+lookdown_table[ , YEAR := year(DATE)]
+lookdown_table[ , MONTH := month(DATE)]
 ```
 
 Add max/min latitude for year.
@@ -29,22 +34,36 @@ lookdown_table[ , MIN_LAT := min(LATITUDE), by = YEAR]
 
 Add a season column.
 ```{r season}
+lookdown_table$MONTH <- as.numeric(lookdown_table$MONTH)
 lookdown_table[ , SEASON := "spring"]
 lookdown_table[MONTH>6, SEASON := "fall"]
 #fall not working
 ```
 
+Season max/min
+```{r}
+lookdown_table[ , MAX_SEA_LAT := max(LATITUDE), by = .(YEAR, SEASON)]
+lookdown_table[ , MIN_SEA_LAT := min(LATITUDE), by = .(YEAR, SEASON)]
+lookdown_table$MAX_SEA_LAT <- as.numeric(lookdown_table$MAX_SEA_LAT)
+lookdown_table$MIN_SEA_LAT <- as.numeric(lookdown_table$MIN_SEA_LAT)
+
+ggplot(lookdown_table, aes(x=YEAR, y=MAX_SEA_LAT, color=SEASON)) +
+  geom_point() +
+  theme_classic()
+```
+
 Graph year vs. max/min.
 ```{r graph}
-ggplot(aes(x=YEAR), data = lookdown_table) +
-  geom_point(aes(y=MAX_LAT)) +
+#hypothesis: max and min lat will both increase, assuming ocean temps are increasing over the years
+ggplot(aes(x=YEAR, y=MAX_LAT), data = lookdown_table) +
+  geom_point() +
+  geom_smooth(method=lm) +
   theme_classic()
 
-ggplot(aes(x=YEAR), data = lookdown_table) +
-  geom_point(aes(y=MIN_LAT)) +
+ggplot(aes(x=YEAR, y=MIN_LAT), data = lookdown_table) +
+  geom_point() +
+  geom_smooth(method=lm) +
   theme_classic()
-
-#starts at 2000, swtiches from 2018 to 1968
 ```
 
 Some other graphs...
@@ -52,12 +71,6 @@ Some other graphs...
 ggplot(aes(x=YEAR, y=TEMPERATURE), data = lookdown_table) +
   geom_point() +
   theme_classic()
-
-lookdown_table[ , AVG_TEMP := mean(TEMPERATURE), by = YEAR]
-
-ggplot(aes(x=YEAR, y=AVG_TEMP), data = lookdown_table) +
-  geom_point() +
-  theme_classic()  #13,000 rows w/o values
 
 lookdown_table[ , AVG_LEN := mean(LENGTH), by = YEAR]
 
@@ -68,5 +81,6 @@ ggplot(aes(x=YEAR), data = lookdown_table) +
 ggplot(lookdown_table, aes(x=YEAR, y=MAX_LAT)) +
   geom_point() +
   geom_smooth(method=lm)  #regression line doesn't appear
+
 ```
 
