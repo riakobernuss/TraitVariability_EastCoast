@@ -45,16 +45,18 @@ lookdown_table[ , MAX_SEA_LAT := max(LATITUDE), by = .(YEAR, SEASON)]
 lookdown_table[ , MIN_SEA_LAT := min(LATITUDE), by = .(YEAR, SEASON)]
 lookdown_table$MAX_SEA_LAT <- as.numeric(lookdown_table$MAX_SEA_LAT)
 lookdown_table$MIN_SEA_LAT <- as.numeric(lookdown_table$MIN_SEA_LAT)
+
+lookdown_table2 <- lookdown_table[YEAR>=1989]
 ```
 
 ```{r}
 #fall maximimums will be higher than spring
-ggplot(lookdown_table, aes(x=YEAR, y=MAX_SEA_LAT, color=SEASON)) +
+ggplot(lookdown_table2, aes(x=YEAR, y=MAX_SEA_LAT, color=SEASON)) +
   geom_point() +
   theme_classic()
 
 #spring minumims will be lower than fall
-ggplot(lookdown_table, aes(x=YEAR, y=MIN_SEA_LAT, color=SEASON)) +
+ggplot(lookdown_table2, aes(x=YEAR, y=MIN_SEA_LAT, color=SEASON)) +
   geom_point() +
   theme_classic()
 ```
@@ -76,12 +78,13 @@ ggplot(aes(x=YEAR, y=MIN_LAT), data = lookdown_table) +
 Some other graphs...
 ```{r}
 #max temp will increase over time
-lookdown_table[ , MAX_TEMP := max(TEMPERATURE), by = YEAR]
+lookdown_table2[ , MAX_TEMP := max(TEMPERATURE, na.rm = T), by = YEAR]
+#gets rid of NAs 
 
-ggplot(aes(x=YEAR, y=MAX_TEMP), data = lookdown_table) +
+ggplot(aes(x=YEAR, y=MAX_TEMP), data = lookdown_table2) +
   geom_point() +
   geom_smooth(method=lm) +
-  theme_classic() #13,000 N/As
+  theme_classic() #max temp that species is found over time
 
 lookdown_table[ , AVG_LEN := mean(LENGTH), by = YEAR]
 
@@ -97,11 +100,17 @@ lookdown_model <- lm(MAX_SEA_LAT~YEAR, data = lookdown_table)
 summary(lookdown_model)
 # maximum season latitude = -.8.2e-2 * year + 2e+02
 # good p-value, bad r2
+
+lookdown_spring_model <- lm(MAX_SEA_LAT~YEAR, data = lookdown_table2[SEASON=="spring"])
+summary(lookdown_spring_model)
+
+lookdown_fall_model <- lm(MAX_SEA_LAT~YEAR, data = lookdown_table2[SEASON=="fall"])
+summary(lookdown_fall_model)
 ```
 
 LAt vs Length
 ```{r}
-ggplot(lookdown_table, aes(x=LATITUDE, y=LENGTH)) +
+ggplot(lookdown_table2, aes(x=LATITUDE, y=LENGTH)) +
   geom_point() +
   geom_smooth(method=lm) +
   theme_classic()
