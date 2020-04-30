@@ -82,8 +82,17 @@ neus_blackSB_red$DATE <- as.Date(neus_blackSB_red$DATE)
 Bind tables.
 ```{r bind}
 scot_blackSB_red.dt <- as.data.table(scot_blackSB_red)
+scot_blackSB_red.dt[ , YEAR := year(DATE)]
+scot_blackSB_red.dt[ , LAST_YR := max(YEAR)]
+scot_blackSB_red.dt[ , FIRST_YR := min(YEAR)]
 seus_blackSB_red.dt <- as.data.table(seus_blackSB_red)
+seus_blackSB_red.dt[ , YEAR := year(DATE)]
+seus_blackSB_red.dt[ , FIRST_YR := min(YEAR)]
+seus_blackSB_red.dt[ , LAST_YR := max(YEAR)]
 neus_blackSB_red.dt <- as.data.table(neus_blackSB_red)
+neus_blackSB_red.dt[ , YEAR := year(DATE)]
+neus_blackSB_red.dt[ , FIRST_YR := min(YEAR)]
+neus_blackSB_red.dt[ , LAST_YR := max(YEAR)]
 blackSB_table <- rbind(scot_blackSB_red.dt, seus_blackSB_red.dt, neus_blackSB_red.dt)
 save(blackSB_table, file = "blackSB_table.RData")
 ```

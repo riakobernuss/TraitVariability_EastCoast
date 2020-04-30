@@ -99,3 +99,21 @@ summary(lookdown_model)
 # good p-value, bad r2
 ```
 
+LAt vs Length
+```{r}
+ggplot(lookdown_table, aes(x=LATITUDE, y=LENGTH)) +
+  geom_point() +
+  geom_smooth(method=lm) +
+  theme_classic()
+
+```
+
+Model for lat vs len
+```{r}
+lookdown_len_model <- lm(LENGTH~LATITUDE, data = lookdown_table)
+summary(lookdown_len_model)
+#length = -2.8905 * latitude + 230.76750
+#p-value = 2.2e-16
+#R2 = 0.01234
+```
+

@@ -1,0 +1,79 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+Goal: Find the maximum and minimum latitude for each species for each year.
+
+```{r setup}
+load("blackSB_table.Rdata")
+
+library(dplyr)
+library(data.table)
+library(stringr)
+library(tibble)
+library(ggplot2)
+library(lubridate)
+
+#scot 2013-2019
+#sues 1989-2018
+#neus 1963-2018
+```
+
+Month/year and lat min/max
+```{r}
+blackSB_table[ , YEAR := year(DATE)]
+blackSB_table[ , MONTH := month(DATE)]
+blackSB_table[ , MAX_LAT := max(LATITUDE), by = YEAR]
+blackSB_table[ , MIN_LAT := min(LATITUDE), by = YEAR]
+```
+
+Add seasons and max/min
+```{r}
+blackSB_table$MONTH <- as.numeric(blackSB_table$MONTH)
+blackSB_table[ , SEASON := "spring"]
+blackSB_table[MONTH>6, SEASON := "fall"]
+blackSB_table[ , MAX_SEA_LAT := max(LATITUDE), by = .(YEAR, SEASON)]
+blackSB_table[ , MIN_SEA_LAT := min(LATITUDE), by = .(YEAR, SEASON)]
+blackSB_table$MAX_SEA_LAT <- as.numeric(blackSB_table$MAX_SEA_LAT)
+blackSB_table$MIN_SEA_LAT <- as.numeric(blackSB_table$MIN_SEA_LAT)
+```
+
+Year vs season latitudes
+```{r}
+#fall maximimums will be higher than spring
+ggplot(blackSB_table, aes(x=YEAR, y=MAX_SEA_LAT, color=SEASON)) +
+  geom_point() +
+  theme_classic()
+
+#spring minumims will be lower than fall
+ggplot(blackSB_table, aes(x=YEAR, y=MIN_SEA_LAT, color=SEASON)) +
+  geom_point() +
+  theme_classic()
+
+##running into issues here where a few sample points do not have latitude formatted correctly
+```
+
+Lengthe/Temp data
+```{r}
+blackSB_table[ , MAX_TEMP := max(TEMPERATURE), by = YEAR]
+blackSB_table[ , AVG_LEN := mean(LENGTH), by = YEAR]
+
+ggplot(blackSB_table, aes(x=YEAR, y=MAX_TEMP)) +
+  geom_point() +
+  theme_classic()
+
+ggplot(blackSB_table, aes(x=YEAR, y=AVG_LEN)) +
+  geom_point() +
+  theme_classic()
+
+##still having trouble getting way too many N/As
+```
+
+Lat vs Length
+```{r}
+ggplot(blackSB_table, aes(x=LATITUDE, y=LENGTH)) +
+  geom_point() +
+  theme_classic()
+```
+
