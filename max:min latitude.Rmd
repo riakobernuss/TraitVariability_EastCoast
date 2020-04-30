@@ -37,7 +37,6 @@ Add a season column.
 lookdown_table$MONTH <- as.numeric(lookdown_table$MONTH)
 lookdown_table[ , SEASON := "spring"]
 lookdown_table[MONTH>6, SEASON := "fall"]
-#fall not working
 ```
 
 Season max/min
@@ -46,8 +45,16 @@ lookdown_table[ , MAX_SEA_LAT := max(LATITUDE), by = .(YEAR, SEASON)]
 lookdown_table[ , MIN_SEA_LAT := min(LATITUDE), by = .(YEAR, SEASON)]
 lookdown_table$MAX_SEA_LAT <- as.numeric(lookdown_table$MAX_SEA_LAT)
 lookdown_table$MIN_SEA_LAT <- as.numeric(lookdown_table$MIN_SEA_LAT)
+```
 
+```{r}
+#fall maximimums will be higher than spring
 ggplot(lookdown_table, aes(x=YEAR, y=MAX_SEA_LAT, color=SEASON)) +
+  geom_point() +
+  theme_classic()
+
+#spring minumims will be lower than fall
+ggplot(lookdown_table, aes(x=YEAR, y=MIN_SEA_LAT, color=SEASON)) +
   geom_point() +
   theme_classic()
 ```
@@ -68,19 +75,27 @@ ggplot(aes(x=YEAR, y=MIN_LAT), data = lookdown_table) +
 
 Some other graphs...
 ```{r}
-ggplot(aes(x=YEAR, y=TEMPERATURE), data = lookdown_table) +
+#max temp will increase over time
+lookdown_table[ , MAX_TEMP := max(TEMPERATURE), by = YEAR]
+
+ggplot(aes(x=YEAR, y=MAX_TEMP), data = lookdown_table) +
   geom_point() +
-  theme_classic()
+  geom_smooth(method=lm) +
+  theme_classic() #13,000 N/As
 
 lookdown_table[ , AVG_LEN := mean(LENGTH), by = YEAR]
 
-ggplot(aes(x=YEAR), data = lookdown_table) +
-  geom_point(aes(y=AVG_LEN)) +
-  theme_classic()  #10,000 rows didn't get values
-
-ggplot(lookdown_table, aes(x=YEAR, y=MAX_LAT)) +
+ggplot(aes(x=YEAR, y=AVG_LEN), data = lookdown_table) +
   geom_point() +
-  geom_smooth(method=lm)  #regression line doesn't appear
+  geom_smooth(method=lm) +
+  theme_classic()
+```
 
+Make model for data
+```{r model}
+lookdown_model <- lm(MAX_SEA_LAT~YEAR, data = lookdown_table)
+summary(lookdown_model)
+# maximum season latitude = -.8.2e-2 * year + 2e+02
+# good p-value, bad r2
 ```
 
