@@ -85,4 +85,5 @@ scot_puffer_red.dt <- as.data.table(scot_puffer_red)
 seus_puffer_red.dt <- as.data.table(seus_puffer_red)
 neus_puffer_red.dt <- as.data.table(neus_puffer_red)
 puffer_table <- rbind(scot_puffer_red.dt, seus_puffer_red.dt, neus_puffer_red.dt)
+save(puffer_table, file = "puffer_table.RData")
 ```

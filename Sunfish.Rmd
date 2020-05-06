@@ -25,7 +25,7 @@ paste0(first, rest)
 Extract relavent data.
 ```{r extraction}
 scot_sunfish <- subset(GSDET_CAT_INF_SPE_merge, SPEC.y == "MOLA MOLA")
-seus_sunfish <- subset(seus_reduced, SPECIESSCIENTIFICNAME.x == "CMOLA MOLA")
+seus_sunfish <- subset(seus_reduced, SPECIESSCIENTIFICNAME.x == "MOLA MOLA")
 neus_sunfish <- subset(neus_reduced, SCINAME == "MOLA MOLA")
 ```
 
@@ -85,4 +85,5 @@ scot_sunfish_red.dt <- as.data.table(scot_sunfish_red)
 seus_sunfish_red.dt <- as.data.table(seus_sunfish_red)
 neus_sunfish_red.dt <- as.data.table(neus_sunfish_red)
 sunfish_table <- rbind(scot_sunfish_red.dt, seus_sunfish_red.dt, neus_sunfish_red.dt)
+save(sunfish_table, file = "sunfish_table.RData")
 ```

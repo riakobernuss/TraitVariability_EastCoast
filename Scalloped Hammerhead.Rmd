@@ -83,5 +83,6 @@ glf_hammerhead_red.dt <- as.data.table(glf_hammerhead_red)
 seus_hammerhead_red.dt <- as.data.table(seus_hammerhead_red)
 neus_hammerhead_red.dt <- as.data.table(neus_hammerhead_red)
 hammerhead_table <- rbind(glf_hammerhead_red, neus_hammerhead_red, seus_hammerhead_red)
+save(hammerhead_table, file = "hammerhead_table.RData")
 ```
 

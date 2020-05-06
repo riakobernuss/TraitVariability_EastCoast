@@ -87,4 +87,5 @@ glf_boxcrab_red.dt <- as.data.table(glf_boxcrab_red)
 seus_boxcrab_red.dt <- as.data.table(seus_boxcrab_red)
 neus_boxcrab_red.dt <- as.data.table(neus_boxcrab_red)
 boxcrab_table <- rbind(glf_boxcrab_red, neus_boxcrab_red, seus_boxcrab_red)
+save(boxcrab_table, file = "boxcrab_table.RData")
 ```

@@ -1,0 +1,40 @@
+---
+title: "R Notebook"
+output: Species Comparisons
+---
+
+Goal: Compare the lat vs length of all 7 species of interest.
+
+```{r}
+load("blackSB_table.RData")
+load("lookdown_table.RData")
+load("boxcrab_table.RData")
+load("puffer_table.RData")
+load("LFsquid_table.RData")
+load("hammerhead_table.RData")
+load("sunfish_table.RData")
+library(dplyr)
+library(data.table)
+library(stringr)
+library(tibble)
+library(ggplot2)
+library(lubridate)
+```
+
+Remove exess years
+```{r}
+lookdown_table[ , YEAR := year(DATE)]
+lookdown_table2 <- lookdown_table[YEAR>1989]
+```
+
+
+
+
+Lat vs length graphs
+```{r}
+ggplot(lookdown_table, aes(x=LATITUDE, y=LENGTH)) +
+  geom_point() +
+  geom_smooth(method=lm) +
+  theme_classic()
+```
+

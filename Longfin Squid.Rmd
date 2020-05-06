@@ -82,4 +82,5 @@ glf_LFsquid_red.dt <- as.data.table(glf_LFsquid_red)
 neus_LFsquid_red.dt <- as.data.table(neus_LFsquid_red)
 scot_LFsquid_red.dt <- as.data.table(scot_LFsquid_red)
 LFsquid_table <- rbind(glf_LFsquid_red, neus_LFsquid_red, scot_LFsquid_red)
+save(LFsquid_table, file = "LFsquid_table.RData")
 ```
