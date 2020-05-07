@@ -8,7 +8,7 @@ Goal: pull data about northern puffer and compile it to one data table.
 ```{r setup}
 load("seus_reduced.RData")
 load("neus_reduced.RData")
-load("GSDET_CAT_INF_SPE_merge.RData")
+load("GSDET_LAT_Merge.RData")
 
 library(dplyr)
 library(data.table)
@@ -24,14 +24,14 @@ paste0(first, rest)
 
 Extract relavent data.
 ```{r extraction}
-scot_puffer <- subset(GSDET_CAT_INF_SPE_merge, SPEC.y == "SPHOEROIDES MACULATUS")
+scot_puffer <- subset(GSDET_LAT_Merge, SPEC.y == "SPHOEROIDES MACULATUS")
 seus_puffer <- subset(seus_reduced, SPECIESSCIENTIFICNAME.x == "SPHOEROIDES MACULATUS")
 neus_puffer <- subset(neus_reduced, SCINAME == "SPHOEROIDES MACULATUS")
 ```
 
 Reduce datasets to have same data.
 ```{r reduce}
-scot_puffer_red<- scot_puffer[, c("FLEN", "FSEX", "SDATE", "SLAT", "SLONG", "BOTTOM_TEMPERATURE", "SPEC.y", "COMM")]
+scot_puffer_red<- scot_puffer[, c("FLEN", "FSEX", "SDATE", "LATITUDE", "LONGITUDE", "BOTTOM_TEMPERATURE", "SPEC.y", "COMM")]
 seus_puffer <- as.data.table(seus_puffer)
 seus_puffer_red <- seus_puffer[, c("DATE.x", "SPECIESSCIENTIFICNAME.x", "SPECIESCOMMONNAME.x", "TEMPBOTTOM.x", "LATITUDESTART.x", "LONGITUDESTART", "LEN1", "SEXDESCRIPTION")]
 neus_puffer_red <- neus_puffer[, c("CATCHSEX", "LAT", "LON", "EST_TOWDATE", "BOTTEMP", "LENGTH", "SCINAME", "COMNAME")]
@@ -39,7 +39,7 @@ neus_puffer_red <- neus_puffer[, c("CATCHSEX", "LAT", "LON", "EST_TOWDATE", "BOT
 
 Add and rename columns so they can bind.
 ```{r add and rename}
-scot_puffer_red <- rename(scot_puffer_red, "LENGTH" = "FLEN", "SEX" = "FSEX", "TEMPERATURE" = "BOTTOM_TEMPERATURE", "LATITUDE" = "SLAT", "LONGITUDE" = "SLONG", "DATE" = "SDATE", "SCINAME" = "SPEC.y", "COMNAME" = "COMM")
+scot_puffer_red <- rename(scot_puffer_red, "LENGTH" = "FLEN", "SEX" = "FSEX", "TEMPERATURE" = "BOTTOM_TEMPERATURE", "DATE" = "SDATE", "SCINAME" = "SPEC.y", "COMNAME" = "COMM")
 scot_puffer_red$SCINAME <- capitalize(scot_puffer_red$SCINAME)
 scot_puffer_red$COMNAME <- capitalize(scot_puffer_red$COMNAME)
 seus_puffer_red <- rename(seus_puffer_red, "DATE" = "DATE.x", "SCINAME" = "SPECIESSCIENTIFICNAME.x", "COMNAME" = "SPECIESCOMMONNAME.x", "TEMPERATURE" = "TEMPBOTTOM.x", "LATITUDE" = "LATITUDESTART.x", "LONGITUDE" = "LONGITUDESTART", "LENGTH" = "LEN1", "SEX" = "SEXDESCRIPTION")

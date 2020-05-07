@@ -8,7 +8,7 @@ Goal: pull data about black sunfish and compile it to one data table.
 ```{r setup}
 load("seus_reduced.RData")
 load("neus_reduced.RData")
-load("GSDET_CAT_INF_SPE_merge.RData")
+load("GSDET_LAT_Merge.RData")
 
 library(dplyr)
 library(data.table)
@@ -24,14 +24,14 @@ paste0(first, rest)
 
 Extract relavent data.
 ```{r extraction}
-scot_sunfish <- subset(GSDET_CAT_INF_SPE_merge, SPEC.y == "MOLA MOLA")
+scot_sunfish <- subset(GSDET_LAT_Merge, SPEC.y == "MOLA MOLA")
 seus_sunfish <- subset(seus_reduced, SPECIESSCIENTIFICNAME.x == "MOLA MOLA")
 neus_sunfish <- subset(neus_reduced, SCINAME == "MOLA MOLA")
 ```
 
 Reduce datasets to have same data.
 ```{r reduce}
-scot_sunfish_red<- scot_sunfish[, c("FLEN", "FSEX", "SDATE", "SLAT", "SLONG", "BOTTOM_TEMPERATURE", "SPEC.y", "COMM")]
+scot_sunfish_red<- scot_sunfish[, c("FLEN", "FSEX", "SDATE", "LATITUDE", "LONGITUDE", "BOTTOM_TEMPERATURE", "SPEC.y", "COMM")]
 seus_sunfish <- as.data.table(seus_sunfish)
 seus_sunfish_red <- seus_sunfish[, c("DATE.x", "SPECIESSCIENTIFICNAME.x", "SPECIESCOMMONNAME.x", "TEMPBOTTOM.x", "LATITUDESTART.x", "LONGITUDESTART", "LEN1", "SEXDESCRIPTION")]
 neus_sunfish_red <- neus_sunfish[, c("CATCHSEX", "LAT", "LON", "EST_TOWDATE", "BOTTEMP", "LENGTH", "SCINAME", "COMNAME")]
@@ -39,7 +39,7 @@ neus_sunfish_red <- neus_sunfish[, c("CATCHSEX", "LAT", "LON", "EST_TOWDATE", "B
 
 Add and rename columns so they can bind.
 ```{r add and rename}
-scot_sunfish_red <- rename(scot_sunfish_red, "LENGTH" = "FLEN", "SEX" = "FSEX", "TEMPERATURE" = "BOTTOM_TEMPERATURE", "LATITUDE" = "SLAT", "LONGITUDE" = "SLONG", "DATE" = "SDATE", "SCINAME" = "SPEC.y", "COMNAME" = "COMM")
+scot_sunfish_red <- rename(scot_sunfish_red, "LENGTH" = "FLEN", "SEX" = "FSEX", "TEMPERATURE" = "BOTTOM_TEMPERATURE", "DATE" = "SDATE", "SCINAME" = "SPEC.y", "COMNAME" = "COMM")
 scot_sunfish_red$SCINAME <- capitalize(scot_sunfish_red$SCINAME)
 scot_sunfish_red$COMNAME <- capitalize(scot_sunfish_red$COMNAME)
 seus_sunfish_red <- rename(seus_sunfish_red, "DATE" = "DATE.x", "SCINAME" = "SPECIESSCIENTIFICNAME.x", "COMNAME" = "SPECIESCOMMONNAME.x", "TEMPERATURE" = "TEMPBOTTOM.x", "LATITUDE" = "LATITUDESTART.x", "LONGITUDE" = "LONGITUDESTART", "LENGTH" = "LEN1", "SEX" = "SEXDESCRIPTION")

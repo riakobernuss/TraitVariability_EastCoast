@@ -25,60 +25,88 @@ Remove exess years
 ```{r}
 #cut off before 1989 b/c seus starts last (1989)
 blackSB_table[ , YEAR := year(DATE)]
+blackSB_table[ , MONTH := month(DATE)]
+blackSB_table$MONTH <- as.numeric(blackSB_table$MONTH)
+blackSB_table[ , SEASON := "spring"]
+blackSB_table[MONTH>6, SEASON := "fall"]
 blackSB_table2 <- blackSB_table[YEAR>1989]
 
 lookdown_table[ , YEAR := year(DATE)]
+lookdown_table[ , MONTH := month(DATE)]
+lookdown_table$MONTH <- as.numeric(lookdown_table$MONTH)
+lookdown_table[ , SEASON := "spring"]
+lookdown_table[MONTH>6, SEASON := "fall"]
 lookdown_table2 <- lookdown_table[YEAR>1989]
 
 boxcrab_table[ , YEAR := year(DATE)]
+boxcrab_table[ , MONTH := month(DATE)]
+boxcrab_table$MONTH <- as.numeric(boxcrab_table$MONTH)
+boxcrab_table[ , SEASON := "spring"]
+boxcrab_table[MONTH>6, SEASON := "fall"]
 boxcrab_table2 <- boxcrab_table[YEAR>1989]
 
 puffer_table[ , YEAR := year(DATE)]
+puffer_table[ , MONTH := month(DATE)]
+puffer_table$MONTH <- as.numeric(puffer_table$MONTH)
+puffer_table[ , SEASON := "spring"]
+puffer_table[MONTH>6, SEASON := "fall"]
 puffer_table2 <- puffer_table[YEAR>1989]
 
 LFsquid_table[ , YEAR := year(DATE)]
+LFsquid_table[ , MONTH := month(DATE)]
+LFsquid_table$MONTH <- as.numeric(LFsquid_table$MONTH)
+LFsquid_table[ , SEASON := "spring"]
+LFsquid_table[MONTH>6, SEASON := "fall"]
 LFsquid_table2 <- LFsquid_table[YEAR>1989]
 
 hammerhead_table[ , YEAR := year(DATE)]
+hammerhead_table[ , MONTH := month(DATE)]
+hammerhead_table$MONTH <- as.numeric(hammerhead_table$MONTH)
+hammerhead_table[ , SEASON := "spring"]
+hammerhead_table[MONTH>6, SEASON := "fall"]
 hammerhead_table2 <- hammerhead_table[YEAR>1989]
 
 sunfish_table[ , YEAR := year(DATE)]
+sunfish_table[ , MONTH := month(DATE)]
+sunfish_table$MONTH <- as.numeric(sunfish_table$MONTH)
+sunfish_table[ , SEASON := "spring"]
+sunfish_table[MONTH>6, SEASON := "fall"]
 sunfish_table2 <- sunfish_table[YEAR>1989]
 ```
 
 Lat vs length graphs
 ```{r}
-ggplot(blackSB_table2, aes(x=LATITUDE, y=LENGTH)) +
+ggplot(blackSB_table2, aes(x=LATITUDE, y=LENGTH, color=SEASON)) +
   geom_point() +
   geom_smooth(method=lm) +
   theme_classic()
 
-ggplot(lookdown_table2, aes(x=LATITUDE, y=LENGTH)) +
+ggplot(lookdown_table2, aes(x=LATITUDE, y=LENGTH, color=SEASON)) +
   geom_point() +
   geom_smooth(method=lm) +
   theme_classic()
 
-ggplot(boxcrab_table2, aes(x=LATITUDE, y=LENGTH)) +
+ggplot(boxcrab_table2, aes(x=LATITUDE, y=LENGTH, color=SEASON)) +
   geom_point() +
   geom_smooth(method=lm) +
   theme_classic()
 
-ggplot(puffer_table2, aes(x=LATITUDE, y=LENGTH)) +
+ggplot(puffer_table2, aes(x=LATITUDE, y=LENGTH, color=SEASON)) +
   geom_point() +
   geom_smooth(method=lm) +
   theme_classic()
 
-ggplot(LFsquid_table2, aes(x=LATITUDE, y=LENGTH)) +
+ggplot(LFsquid_table2, aes(x=LATITUDE, y=LENGTH, color=SEASON)) +
   geom_point() +
   geom_smooth(method=lm) +
   theme_classic()
 
-ggplot(hammerhead_table2, aes(x=LATITUDE, y=LENGTH)) +
+ggplot(hammerhead_table2, aes(x=LATITUDE, y=LENGTH, color=SEASON)) +
   geom_point() +
   geom_smooth(method=lm) +
   theme_classic()
 
-ggplot(sunfish_table2, aes(x=LATITUDE, y=LENGTH)) +
+ggplot(sunfish_table2, aes(x=LATITUDE, y=LENGTH, color=SEASON)) +
   geom_point() +
   geom_smooth(method=lm) +
   theme_classic()

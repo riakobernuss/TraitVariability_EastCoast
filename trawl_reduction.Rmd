@@ -111,6 +111,7 @@ load("DFO_ScotianShelf_RVSurvey_20191031/RV.GSDET.Rdata")
 load("DFO_ScotianShelf_RVSurvey_20191031/RV.GSCAT.Rdata")
 load("DFO_ScotianShelf_RVSurvey_20191031/RV.GSINF.Rdata")
 load("DFO_ScotianShelf_RVSurvey_20191031/RV.GSSPECIES.Rdata")
+load("scotian_lat_lon_key.RData")
 
 GSDET <- data.table(GSDET)
 
@@ -126,9 +127,10 @@ GSSPECIES <- data.table(GSSPECIES)
 GSSPECIES.r <- GSSPECIES[, .(SPEC, COMM, CODE)]
 GSDET_CAT_merge <- left_join(GSDET.r, GSCAT.r, by = c("MISSION", "SETNO", "SPEC"))
 GSDET_CAT_INF_merge <- left_join(GSDET_CAT_merge, GSINF.r, by = c("MISSION", "SETNO"))
-GSDET_CAT_INF_SPE_merge <- left_join(GSDET_CAT_INF_merge, GSSPECIES.r, by = c("SPEC" = "CODE"))     
+GSDET_CAT_INF_SPE_merge <- left_join(GSDET_CAT_INF_merge, GSSPECIES.r, by = c("SPEC" = "CODE"))
+GSDET_LAT_Merge <- left_join(GSDET_CAT_INF_SPE_merge, gsinf_key, by = c("SLAT", "SLONG"))
 
-save(GSDET_CAT_INF_SPE_merge, file = "GSDET_CAT_INF_SPE_merge.RData")
+save(GSDET_LAT_Merge, file = "GSDET_LAT_Merge.RData")
 
 ```
 

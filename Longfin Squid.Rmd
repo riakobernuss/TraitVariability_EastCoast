@@ -7,7 +7,7 @@ Goal: pull data about longfin inshore squid and compile it to one data table.
 ```{r setup}
 load("glf_reduced.RData")
 load("neus_reduced.RData")
-load("GSDET_CAT_INF_SPE_merge.RData")
+load("GSDET_LAT_Merge.RData")
 
 library(dplyr)
 library(data.table)
@@ -30,14 +30,14 @@ Extract relavent data.
 ```{r extraction}
 glf_LFsquid <- subset(glf_reduced.dt, SPEC_GLF == "PEALEII")
 neus_LFsquid <- subset(neus_reduced, SCINAME == "LOLIGO PEALEII")
-scot_LFsquid <- subset(GSDET_CAT_INF_SPE_merge, SPEC.y == "LOLIGO PEALEII")
+scot_LFsquid <- subset(GSDET_LAT_Merge, SPEC.y == "LOLIGO PEALEII")
 ```
 
 Reduce datasets to have same data.
 ```{r reduce}
 glf_LFsquid_red <- glf_LFsquid[, c("LEN_GLF", "SEX_GLF", "MO_DAY_YR", "TEMP_BOT", "DECSLAT", "DECSLON")]
 neus_LFsquid_red <- neus_LFsquid[, c("CATCHSEX", "LAT", "LON", "EST_TOWDATE", "BOTTEMP", "LENGTH", "SCINAME", "COMNAME")]
-scot_LFsquid_red<- scot_LFsquid[, c("FLEN", "FSEX", "SDATE", "SLAT", "SLONG", "BOTTOM_TEMPERATURE", "SPEC.y", "COMM")]
+scot_LFsquid_red<- scot_LFsquid[, c("FLEN", "FSEX", "SDATE", "LATITUDE", "LONGITUDE", "BOTTOM_TEMPERATURE", "SPEC.y", "COMM")]
 ```
 
 Add and rename columns so they can bind.
@@ -50,7 +50,7 @@ neus_LFsquid_red$SCINAME <- as.character(neus_LFsquid_red$SCINAME)
 neus_LFsquid_red$SCINAME <- capitalize(neus_LFsquid_red$SCINAME)
 neus_LFsquid_red$COMNAME <- as.character(neus_LFsquid_red$COMNAME)
 neus_LFsquid_red$COMNAME <- capitalize(neus_LFsquid_red$COMNAME)
-scot_LFsquid_red <- rename(scot_LFsquid_red, "LENGTH" = "FLEN", "SEX" = "FSEX", "TEMPERATURE" = "BOTTOM_TEMPERATURE", "LATITUDE" = "SLAT", "LONGITUDE" = "SLONG", "DATE" = "SDATE", "SCINAME" = "SPEC.y", "COMNAME" = "COMM")
+scot_LFsquid_red <- rename(scot_LFsquid_red, "LENGTH" = "FLEN", "SEX" = "FSEX", "TEMPERATURE" = "BOTTOM_TEMPERATURE", "DATE" = "SDATE", "SCINAME" = "SPEC.y", "COMNAME" = "COMM")
 scot_LFsquid_red$SCINAME <- capitalize(scot_LFsquid_red$SCINAME)
 scot_LFsquid_red$comname <- capitalize(scot_LFsquid_red$COMNAME)
 ```
