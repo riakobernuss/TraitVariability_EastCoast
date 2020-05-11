@@ -31,7 +31,7 @@ neus_blackSB <- subset(neus_reduced, SCINAME == "CENTROPRISTIS STRIATA")
 
 Reduce datasets to have same data.
 ```{r reduce}
-scot_blackSB_red<- scot_blackSB[, c("FLEN", "FSEX", "SDATE", "LATITUDE", "LONGITUDE", "BOTTOM_TEMPERATURE", "SPEC.y", "COMM")]
+scot_blackSB_red<- scot_blackSB[, c("FLEN_MM", "FSEX", "SDATE", "LATITUDE", "LONGITUDE", "BOTTOM_TEMPERATURE", "SPEC.y", "COMM")]
 seus_blackSB <- as.data.table(seus_blackSB)
 seus_blackSB_red <- seus_blackSB[, c("DATE.x", "SPECIESSCIENTIFICNAME.x", "SPECIESCOMMONNAME.x", "TEMPBOTTOM.x", "LATITUDESTART.x", "LONGITUDESTART", "LEN1", "SEXDESCRIPTION")]
 neus_blackSB_red <- neus_blackSB[, c("CATCHSEX", "LAT", "LON", "EST_TOWDATE", "BOTTEMP", "LENGTH", "SCINAME", "COMNAME")]
@@ -39,7 +39,7 @@ neus_blackSB_red <- neus_blackSB[, c("CATCHSEX", "LAT", "LON", "EST_TOWDATE", "B
 
 Add and rename columns so they can bind.
 ```{r add and rename}
-scot_blackSB_red <- rename(scot_blackSB_red, "LENGTH" = "FLEN", "SEX" = "FSEX", "TEMPERATURE" = "BOTTOM_TEMPERATURE", "DATE" = "SDATE", "SCINAME" = "SPEC.y", "COMNAME" = "COMM")
+scot_blackSB_red <- rename(scot_blackSB_red, "LENGTH" = "FLEN_MM", "SEX" = "FSEX", "TEMPERATURE" = "BOTTOM_TEMPERATURE", "DATE" = "SDATE", "SCINAME" = "SPEC.y", "COMNAME" = "COMM")
 scot_blackSB_red$SCINAME <- capitalize(scot_blackSB_red$SCINAME)
 scot_blackSB_red$COMNAME <- capitalize(scot_blackSB_red$COMNAME)
 seus_blackSB_red <- rename(seus_blackSB_red, "DATE" = "DATE.x", "SCINAME" = "SPECIESSCIENTIFICNAME.x", "COMNAME" = "SPECIESCOMMONNAME.x", "TEMPERATURE" = "TEMPBOTTOM.x", "LATITUDE" = "LATITUDESTART.x", "LONGITUDE" = "LONGITUDESTART", "LENGTH" = "LEN1", "SEX" = "SEXDESCRIPTION")

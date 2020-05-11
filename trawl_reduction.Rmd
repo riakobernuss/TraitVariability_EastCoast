@@ -129,6 +129,7 @@ GSDET_CAT_merge <- left_join(GSDET.r, GSCAT.r, by = c("MISSION", "SETNO", "SPEC"
 GSDET_CAT_INF_merge <- left_join(GSDET_CAT_merge, GSINF.r, by = c("MISSION", "SETNO"))
 GSDET_CAT_INF_SPE_merge <- left_join(GSDET_CAT_INF_merge, GSSPECIES.r, by = c("SPEC" = "CODE"))
 GSDET_LAT_Merge <- left_join(GSDET_CAT_INF_SPE_merge, gsinf_key, by = c("SLAT", "SLONG"))
+GSDET_LAT_Merge$FLEN_MM <- (GSDET_LAT_Merge$FLEN * 10)
 
 save(GSDET_LAT_Merge, file = "GSDET_LAT_Merge.RData")
 

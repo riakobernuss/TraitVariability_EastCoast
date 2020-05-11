@@ -116,32 +116,37 @@ Models for each of the above graphs.
 ```{r}
 blackSB_model <- lm(LENGTH~LATITUDE, data = blackSB_table2)
 summary(blackSB_model)
-#length = -0.100388 * lat + 115.786587
-#good p-value, bar r2
+#length = -15.34329 * lat + 645.69699
+#good p-value, r2= 38%
 
 lookdown_model <- lm(LENGTH~LATITUDE, data = lookdown_table2)
 summary(lookdown_model)
 #len = -2.73 * lat + 225.977 
-# good p-value, bar r2
+# good p-value, r2= 1%
 
 boxcrab_model <- lm(LENGTH~LATITUDE, data = boxcrab_table2)
 summary(boxcrab_model)
 #len = 2.78 * lat + 39.032
-#good p-value, bar r2
+#good p-value, r2= 1%
 
 puffer_model <- lm(LENGTH~LATITUDE, data = puffer_table2)
 summary(puffer_model)
-#len = -0.08897 * lat + 139.92
-# good p-values, really bad r2
+#len = -8.1466 * lat + 415.62722
+# good p-values, r2= 4%
 
 LFsquid_model <- lm(LENGTH~LATITUDE, data = LFsquid_table2)
 summary(LFsquid_model)
-#len = -0.006517 * lat + 35.16
-#good p-value, bar r2
+#len = -5.41471 * lat + 226.15468
+#good p-value, r2= 57%
 
 hammerhead_model <- lm(LENGTH~LATITUDE, data = hammerhead_table2)
 summary(hammerhead_model)
 #len = -1.144 * lat + 173.0498
-# good p-values, really bad r2
+# good p-values, r2= .07%
+
+sunfish_model <- lm(LENGTH~LATITUDE, data = sunfish_table2)
+summary(sunfish_model)
+#len = -7.805 * lat + 451.052
+#bad p-value, r2= 10%
 ```
 
