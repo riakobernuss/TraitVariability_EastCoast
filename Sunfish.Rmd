@@ -31,21 +31,21 @@ neus_sunfish <- subset(neus_reduced, SCINAME == "MOLA MOLA")
 
 Reduce datasets to have same data.
 ```{r reduce}
-scot_sunfish_red<- scot_sunfish[, c("FLEN", "FSEX", "SDATE", "LATITUDE", "LONGITUDE", "BOTTOM_TEMPERATURE", "SPEC.y", "COMM")]
+scot_sunfish_red<- scot_sunfish[, c("FLEN_MM", "FSEX", "SDATE", "LATITUDE", "LONGITUDE", "BOTTOM_TEMPERATURE", "SPEC.y", "COMM")]
 seus_sunfish <- as.data.table(seus_sunfish)
 seus_sunfish_red <- seus_sunfish[, c("DATE.x", "SPECIESSCIENTIFICNAME.x", "SPECIESCOMMONNAME.x", "TEMPBOTTOM.x", "LATITUDESTART.x", "LONGITUDESTART", "LEN1", "SEXDESCRIPTION")]
-neus_sunfish_red <- neus_sunfish[, c("CATCHSEX", "LAT", "LON", "EST_TOWDATE", "BOTTEMP", "LENGTH", "SCINAME", "COMNAME")]
+neus_sunfish_red <- neus_sunfish[, c("CATCHSEX", "LAT", "LON", "EST_TOWDATE", "BOTTEMP", "LENGTH_MM", "SCINAME", "COMNAME")]
 ```
 
 Add and rename columns so they can bind.
 ```{r add and rename}
-scot_sunfish_red <- rename(scot_sunfish_red, "LENGTH" = "FLEN", "SEX" = "FSEX", "TEMPERATURE" = "BOTTOM_TEMPERATURE", "DATE" = "SDATE", "SCINAME" = "SPEC.y", "COMNAME" = "COMM")
+scot_sunfish_red <- rename(scot_sunfish_red, "LENGTH" = "FLEN_MM", "SEX" = "FSEX", "TEMPERATURE" = "BOTTOM_TEMPERATURE", "DATE" = "SDATE", "SCINAME" = "SPEC.y", "COMNAME" = "COMM")
 scot_sunfish_red$SCINAME <- capitalize(scot_sunfish_red$SCINAME)
 scot_sunfish_red$COMNAME <- capitalize(scot_sunfish_red$COMNAME)
 seus_sunfish_red <- rename(seus_sunfish_red, "DATE" = "DATE.x", "SCINAME" = "SPECIESSCIENTIFICNAME.x", "COMNAME" = "SPECIESCOMMONNAME.x", "TEMPERATURE" = "TEMPBOTTOM.x", "LATITUDE" = "LATITUDESTART.x", "LONGITUDE" = "LONGITUDESTART", "LENGTH" = "LEN1", "SEX" = "SEXDESCRIPTION")
 seus_sunfish_red$SCINAME <- capitalize(seus_sunfish_red$SCINAME)
 seus_sunfish_red$COMNAME <- capitalize(seus_sunfish_red$COMNAME)
-neus_sunfish_red <- rename(neus_sunfish_red, "SEX" = "CATCHSEX", "LATITUDE" = "LAT", "LONGITUDE" = "LON", "DATE" = "EST_TOWDATE", "TEMPERATURE" = "BOTTEMP")
+neus_sunfish_red <- rename(neus_sunfish_red, "SEX" = "CATCHSEX", "LATITUDE" = "LAT", "LONGITUDE" = "LON", "DATE" = "EST_TOWDATE", "TEMPERATURE" = "BOTTEMP", "LENGTH" = "LENGTH_MM")
 neus_sunfish_red$SCINAME <- as.character(neus_sunfish_red$SCINAME)
 neus_sunfish_red$SCINAME <- capitalize(neus_sunfish_red$SCINAME)
 neus_sunfish_red$COMNAME <- as.character(neus_sunfish_red$COMNAME)

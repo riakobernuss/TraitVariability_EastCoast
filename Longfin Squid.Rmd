@@ -36,8 +36,8 @@ scot_LFsquid <- subset(GSDET_LAT_Merge, SPEC.y == "LOLIGO PEALEII")
 Reduce datasets to have same data.
 ```{r reduce}
 glf_LFsquid_red <- glf_LFsquid[, c("LEN_GLF", "SEX_GLF", "MO_DAY_YR", "TEMP_BOT", "DECSLAT", "DECSLON")]
-neus_LFsquid_red <- neus_LFsquid[, c("CATCHSEX", "LAT", "LON", "EST_TOWDATE", "BOTTEMP", "LENGTH", "SCINAME", "COMNAME")]
-scot_LFsquid_red<- scot_LFsquid[, c("FLEN", "FSEX", "SDATE", "LATITUDE", "LONGITUDE", "BOTTOM_TEMPERATURE", "SPEC.y", "COMM")]
+neus_LFsquid_red <- neus_LFsquid[, c("CATCHSEX", "LAT", "LON", "EST_TOWDATE", "BOTTEMP", "LENGTH_MM", "SCINAME", "COMNAME")]
+scot_LFsquid_red<- scot_LFsquid[, c("FLEN_MM", "FSEX", "SDATE", "LATITUDE", "LONGITUDE", "BOTTOM_TEMPERATURE", "SPEC.y", "COMM")]
 ```
 
 Add and rename columns so they can bind.
@@ -45,12 +45,12 @@ Add and rename columns so they can bind.
 glf_LFsquid_red <- add_column(glf_LFsquid_red, SCINAME = "Loligo pealeii")
 glf_LFsquid_red <- add_column(glf_LFsquid_red, COMNAME = "Longfin squid")
 glf_LFsquid_red <- rename(glf_LFsquid_red, "LENGTH" = "LEN_GLF", "SEX" = "SEX_GLF", "TEMPERATURE" = "TEMP_BOT", "LATITUDE" = "DECSLAT", "LONGITUDE" = "DECSLON", "DATE" = "MO_DAY_YR")
-neus_LFsquid_red <- rename(neus_LFsquid_red, "SEX" = "CATCHSEX", "LATITUDE" = "LAT", "LONGITUDE" = "LON", "DATE" = "EST_TOWDATE", "TEMPERATURE" = "BOTTEMP")
+neus_LFsquid_red <- rename(neus_LFsquid_red, "SEX" = "CATCHSEX", "LATITUDE" = "LAT", "LONGITUDE" = "LON", "DATE" = "EST_TOWDATE", "TEMPERATURE" = "BOTTEMP", "LENGTH" = "LENGTH_MM")
 neus_LFsquid_red$SCINAME <- as.character(neus_LFsquid_red$SCINAME)
 neus_LFsquid_red$SCINAME <- capitalize(neus_LFsquid_red$SCINAME)
 neus_LFsquid_red$COMNAME <- as.character(neus_LFsquid_red$COMNAME)
 neus_LFsquid_red$COMNAME <- capitalize(neus_LFsquid_red$COMNAME)
-scot_LFsquid_red <- rename(scot_LFsquid_red, "LENGTH" = "FLEN", "SEX" = "FSEX", "TEMPERATURE" = "BOTTOM_TEMPERATURE", "DATE" = "SDATE", "SCINAME" = "SPEC.y", "COMNAME" = "COMM")
+scot_LFsquid_red <- rename(scot_LFsquid_red, "LENGTH" = "FLEN_MM", "SEX" = "FSEX", "TEMPERATURE" = "BOTTOM_TEMPERATURE", "DATE" = "SDATE", "SCINAME" = "SPEC.y", "COMNAME" = "COMM")
 scot_LFsquid_red$SCINAME <- capitalize(scot_LFsquid_red$SCINAME)
 scot_LFsquid_red$comname <- capitalize(scot_LFsquid_red$COMNAME)
 ```

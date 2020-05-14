@@ -50,6 +50,7 @@ neus_full <- left_join(spp, survdat, by = "SVSPP")
 Reduce NEUS data.
 ```{r reduce NEUS}
 neus_reduced <- neus_full[, c("TOW", "CATCHSEX", "YEAR", "SEASON", "LAT", "LON", "EST_TOWDATE", "DEPTH", "SURFTEMP", "BOTTEMP", "ABUNDANCE", "BIOMASS", "LENGTH", "NUMLEN", "SCINAME", "COMNAME")]
+neus_reduced$LENGTH_MM <- (neus_reduced$LENGTH * 10)
 ```
 
 Save NEUS data.
