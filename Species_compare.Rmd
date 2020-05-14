@@ -114,7 +114,7 @@ ggplot(sunfish_table2, aes(x=LATITUDE, y=LENGTH, color=SEASON)) +
 
 Models for each of the above graphs.
 ```{r}
-blackSB_model <- lm(LENGTH~LATITUDE, data = blackSB_table2)
+blackSB_model <- lm(LENGTH~LATITUDE*SEASON, data = blackSB_table2)
 summary(blackSB_model)
 #length = -15.34329 * lat + 645.69699
 #good p-value, r2= 38%
