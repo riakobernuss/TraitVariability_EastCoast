@@ -132,7 +132,6 @@ GSDET_LAT_Merge <- left_join(GSDET_CAT_INF_SPE_merge, gsinf_key, by = c("SLAT", 
 GSDET_LAT_Merge$FLEN_MM <- (GSDET_LAT_Merge$FLEN * 10)
 
 save(GSDET_LAT_Merge, file = "GSDET_LAT_Merge.RData")
-
 ```
 
 _________________
