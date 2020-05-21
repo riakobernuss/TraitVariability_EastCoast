@@ -116,37 +116,39 @@ Models for each of the above graphs.
 ```{r}
 blackSB_model <- lm(LENGTH~LATITUDE*SEASON, data = blackSB_table2)
 summary(blackSB_model)
-#length = -15.34329 * lat + 645.69699
-#good p-value, r2= 38%
+#y=mx+b
+#length = m * lat + b
+#SPRING length = 6.0170 * lat -178.5545
+#FALL length = 8.1410 * lat -133.3204
 
-lookdown_model <- lm(LENGTH~LATITUDE, data = lookdown_table2)
+lookdown_model <- lm(LENGTH~LATITUDE*SEASON, data = lookdown_table2)
 summary(lookdown_model)
-#len = -2.73 * lat + 225.977 
-# good p-value, r2= 1%
+#SPRING length = 8.34391 * lat -271.32277
+#FALL length = -2.87965 * lat + 230.73128
 
-boxcrab_model <- lm(LENGTH~LATITUDE, data = boxcrab_table2)
+boxcrab_model <- lm(LENGTH~LATITUDE*SEASON, data = boxcrab_table2)
 summary(boxcrab_model)
-#len = 2.78 * lat + 39.032
-#good p-value, r2= 1%
+#SPRING length = 5.5571 * lat - 160.57034
+#FALL len = 0.9611 * lat + 91.9180
 
-puffer_model <- lm(LENGTH~LATITUDE, data = puffer_table2)
+puffer_model <- lm(LENGTH~LATITUDE*SEASON, data = puffer_table2)
 summary(puffer_model)
-#len = -8.1466 * lat + 415.62722
-# good p-values, r2= 4%
+#SPRING len = -4.7080 * lat + 167.7223
+#FALL len = -0.7644 * lat + 164.8941
 
-LFsquid_model <- lm(LENGTH~LATITUDE, data = LFsquid_table2)
+LFsquid_model <- lm(LENGTH~LATITUDE*SEASON, data = LFsquid_table2)
 summary(LFsquid_model)
-#len = -5.41471 * lat + 226.15468
-#good p-value, r2= 57%
+#SPRING len = 0.50409 * lat - 16.15152
+#FALL len = 2.36452 * lat + 15.89981
 
-hammerhead_model <- lm(LENGTH~LATITUDE, data = hammerhead_table2)
+hammerhead_model <- lm(LENGTH~LATITUDE*SEASON, data = hammerhead_table2)
 summary(hammerhead_model)
-#len = -1.144 * lat + 173.0498
-# good p-values, r2= .07%
+#SPRING len = 14.8621 * lat - 445.0967
+#FALL len = -1.9011 * lat + 195.7880
 
-sunfish_model <- lm(LENGTH~LATITUDE, data = sunfish_table2)
+sunfish_model <- lm(LENGTH~LATITUDE*SEASON, data = sunfish_table2)
 summary(sunfish_model)
-#len = -7.805 * lat + 451.052
-#bad p-value, r2= 10%
+#SPRING len = 645.94 * lat - 23133.09
+#FALL len = -19.85 * lat + 2244.06
 ```
 
